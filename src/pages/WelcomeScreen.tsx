@@ -11,14 +11,14 @@ const WelcomeScreen = ({ navigation }: WelcomeScreenProps): React.JSX.Element =>
 
         <SafeAreaView style={styles.safeArea}>
             <ScrollView
-                contentContainerStyle={styles.scrollContainer} 
+                contentContainerStyle={styles.scrollContainer}
                 contentInsetAdjustmentBehavior="automatic">
                 <View style={styles.container}>
                     <View style={styles.titleContainer}>
                         <Text style={styles.title}>Welcome! Order your first drink today</Text>
                     </View>
                     <Image
-                        source={require('../assets/images/coffee2.jpg')} 
+                        source={require('../assets/images/coffee2.jpg')}
                         style={styles.coverPhoto}
                     />
                     <View style={styles.btnSignupContainer}>
@@ -31,6 +31,12 @@ const WelcomeScreen = ({ navigation }: WelcomeScreenProps): React.JSX.Element =>
                         <Text style={styles.txtSignIn}> SIGN IN</Text>
                     </View>
                     <Text style={styles.txtDeliveryPartners}>Our delivery partners</Text>
+                    <View style={styles.deliveryCompanyContainer}>
+                    <View style={styles.btnDeliveryCompany}>
+                        <Text style={styles.txtDeliveryCompanyName}>Deliveroo</Text>
+                    </View>
+                    </View>
+                   
                     <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
                 </View>
             </ScrollView>
@@ -44,9 +50,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffffff',
     },
     scrollContainer: {
-        flexGrow: 1, 
-        justifyContent: 'center', 
-        
+        flexGrow: 1,
+        justifyContent: 'center',
+
     },
     container: {
         flex: 1,
@@ -54,8 +60,8 @@ const styles = StyleSheet.create({
         width: '100%'
     },
     titleContainer: {
-        alignItems: 'center', 
-        width: '100%', 
+        alignItems: 'center',
+        width: '100%',
         padding: 20,
     },
     title: {
@@ -74,7 +80,7 @@ const styles = StyleSheet.create({
     },
     coverPhoto: {
         width: '100%',
-        height: 360,
+        height: 380,
     },
     btnSignupContainer: {
         alignItems: 'center',
@@ -99,7 +105,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         textAlign: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        marginTop:40
     },
     txtSignIn: {
         fontSize: 16,
@@ -110,14 +117,32 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     statusBarContainer: {
-        height: StatusBar.currentHeight, 
-        backgroundColor: '#ffffff', 
+        height: StatusBar.currentHeight,
+        backgroundColor: '#ffffff',
     },
-    txtDeliveryPartners:{
+    txtDeliveryPartners: {
         fontSize: 24,
         fontWeight: 'bold',
-        marginLeft:30
-    }
+        marginLeft: 30,
+        marginTop:30
+    },
+    btnDeliveryCompany: {
+        width: '80%', 
+        height: 50,
+        backgroundColor: '#4CAF50',
+        borderRadius: 10, 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+      },
+      deliveryCompanyContainer:{
+        marginTop:10,
+        justifyContent: 'center',
+        alignItems: 'center', 
+      },
+      txtDeliveryCompanyName:{
+        color: '#ffffff', 
+        fontSize: 16, 
+      }
 });
 
 export default WelcomeScreen;
