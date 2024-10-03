@@ -32,11 +32,21 @@ const WelcomeScreen = ({ navigation }: WelcomeScreenProps): React.JSX.Element =>
                     </View>
                     <Text style={styles.txtDeliveryPartners}>Our delivery partners</Text>
                     <View style={styles.deliveryCompanyContainer}>
-                    <View style={styles.btnDeliveryCompany}>
-                        <Text style={styles.txtDeliveryCompanyName}>Deliveroo</Text>
+                        <View style={styles.btnDeliveryCompany}>
+                            <Image
+                                style={styles.deliveryLogo}
+                                source={require('../assets/images/deliveroo_logo.jpeg')}
+                            />
+                            <View style={styles.deliveryCompanyNameContainer}>
+                                <Text style={styles.txtDeliveryCompanyName}>Deliveroo</Text>
+                                <Text style={styles.txtDeliveryDescription}>Takeaway</Text>
+                            </View>
+                            <TouchableOpacity style={styles.deliveryOrderButton}>
+                                <Text style={styles.btnDeliveryOrderButtonText}>ORDER</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                    </View>
-                   
+
                     <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
                 </View>
             </ScrollView>
@@ -92,7 +102,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'green',
         width: '80%',
         height: 50,
-        borderRadius: 20,
+        borderRadius: 25,
         justifyContent: 'center',
     },
     btnSignUpText: {
@@ -106,7 +116,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         textAlign: 'center',
         justifyContent: 'center',
-        marginTop:40
+        marginTop: 40
     },
     txtSignIn: {
         fontSize: 16,
@@ -124,25 +134,59 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: 'bold',
         marginLeft: 30,
-        marginTop:30
+        marginTop: 30
     },
     btnDeliveryCompany: {
-        width: '80%', 
-        height: 50,
-        backgroundColor: '#4CAF50',
-        borderRadius: 10, 
-        justifyContent: 'center', 
-        alignItems: 'center', 
-      },
-      deliveryCompanyContainer:{
-        marginTop:10,
+        width: '90%',
+        height: 60,
+        backgroundColor: '#edebeb',
+        borderRadius: 10,
+        alignItems: 'center',
+        flexDirection: 'row',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.50,
+        shadowRadius: 3,
+    },
+    deliveryCompanyContainer: {
+        marginTop: 10,
         justifyContent: 'center',
-        alignItems: 'center', 
-      },
-      txtDeliveryCompanyName:{
-        color: '#ffffff', 
-        fontSize: 16, 
-      }
+        alignItems: 'center',
+    },
+    txtDeliveryCompanyName: {
+        color: '#00000',
+        fontSize: 16,
+    },
+    deliveryLogo: {
+        height: 35,
+        width: 35,
+        left: 10,
+        marginRight: 10,
+        borderRadius: 5
+    },
+    txtDeliveryDescription: {
+        fontSize: 10,
+        color:'#494a49'
+    },
+    deliveryCompanyNameContainer: {
+        marginLeft: 10,
+        marginRight: 10
+    },
+    deliveryOrderButton: {
+        right: 10,
+        position: 'absolute',
+        backgroundColor: '#64e9f5',
+        width: 70,
+        height: 20,
+        borderRadius: 25,
+        justifyContent: 'center',
+    },
+    btnDeliveryOrderButtonText: {
+        textAlign: 'center',
+        fontSize: 12,
+        fontWeight: 'bold',
+        color: 'white'
+    }
 });
 
 export default WelcomeScreen;
