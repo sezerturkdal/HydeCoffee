@@ -50,8 +50,8 @@ function App(): React.JSX.Element {
         })}
       >
         <Tab.Screen name="Welcome" component={WelcomeScreen} options={{ headerShown: false }} />
-        <Tab.Screen name="Order" component={OrderScreen} />
-        <Tab.Screen name="Loyalty" component={LoyaltyScreen} />
+        <Tab.Screen name="Order" component={OrderScreen}  options={{ headerShown: false }} />
+        <Tab.Screen name="Loyalty" component={LoyaltyScreen} options={{ headerShown: false }}/>
       </Tab.Navigator>
     </NavigationContainer>
   );
