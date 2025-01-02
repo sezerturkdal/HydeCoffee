@@ -9,7 +9,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import WelcomeScreen from './src/pages/WelcomeScreen';
 import OrderScreen from './src/pages/OrderScreen';
-import LoyaltyScreen from './src/pages/OrderScreen';
+import LoyaltyScreen from './src/pages/LoyaltyScreen';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import AnimatedTabButton from './src/components/AnimatedTabButton'
 
