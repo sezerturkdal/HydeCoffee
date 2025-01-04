@@ -13,25 +13,35 @@ import {
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 const OrderScreen = () => {
-  const [activeCategory, setActiveCategory] = useState('Drinks'); // Aktif kategori durumunu takip ediyoruz
+  const [activeCategory, setActiveCategory] = useState('Seasonal Drinks'); // Aktif kategori durumunu takip ediyoruz
   const scrollY = useRef(new Animated.Value(0)).current;
 
   // Kategoriler ve her kategorinin öğeleri
   const categories = [
     { 
       id: '1', 
-      name: 'Drinks', 
-      data: Array.from({ length: 10 }, (_, index) => ({ id: `${index}`, name: `Drink ${index + 1}` })) 
+      name: 'Seasonal Drinks', 
+      data: Array.from({ length: 10 }, (_, index) => ({ id: `${index}`, name: `Seasonal Drink ${index + 1}` })) 
     },
     { 
       id: '2', 
-      name: 'Foods', 
-      data: Array.from({ length: 15 }, (_, index) => ({ id: `${index + 5}`, name: `Food ${index + 1}` })) 
+      name: 'Hot Drinks', 
+      data: Array.from({ length: 5 }, (_, index) => ({ id: `${index + 5}`, name: `Hot Drink ${index + 1}` })) 
     },
     { 
       id: '3', 
-      name: 'Desserts', 
-      data: Array.from({ length: 5 }, (_, index) => ({ id: `${index + 10}`, name: `Dessert ${index + 1}` })) 
+      name: 'Iced Drinks', 
+      data: Array.from({ length: 20 }, (_, index) => ({ id: `${index + 10}`, name: `Iced Drink ${index + 1}` })) 
+    },
+    { 
+      id: '4', 
+      name: 'Baked Goods', 
+      data: Array.from({ length: 20 }, (_, index) => ({ id: `${index + 10}`, name: `Baked Good ${index + 1}` })) 
+    },
+    { 
+      id: '5', 
+      name: 'Retail', 
+      data: Array.from({ length: 20 }, (_, index) => ({ id: `${index + 10}`, name: `Retail ${index + 1}` })) 
     },
   ];
 
@@ -81,7 +91,7 @@ const OrderScreen = () => {
         </Animated.View>
 
         {/* Kategoriler (Yatay Kaydırma) */}
-        <ScrollView horizontal style={styles.categoryScroll}>
+        <ScrollView horizontal style={styles.categoryScroll} showsHorizontalScrollIndicator={false}>
           {categories.map((category) => (
             <TouchableOpacity 
               key={category.id} 
@@ -149,7 +159,7 @@ const styles = StyleSheet.create({
   },
   selectedStore: {
     padding: '3%',
-    marginTop: 70, // Üst alan biraz aşağıda başlasın
+    marginTop: 60, // Üst alan biraz aşağıda başlasın
     width: '90%',
     alignSelf: 'center',
     borderRadius: 20,
@@ -191,28 +201,31 @@ const styles = StyleSheet.create({
   },
   categoryScroll: {
     marginTop: 10,
-    marginBottom: 10,
+    paddingBottom: 40,
+    height:10,
   },
   categoryContainer: {
     height: 30,
-    marginRight: 15, // Aralarına biraz mesafe ekledik
     padding: 10,
-    borderRadius: 10,
     backgroundColor: '#f1f1f1',
     alignItems: 'center',
     justifyContent: 'center',
   },
   activeCategory: {
-    backgroundColor: '#fabee3',
+    borderBottomWidth: 2, // Sadece alt kenarda kenarlık
+    borderBottomColor: 'black', // Alt kenarlığın rengi
   },
   activeCategoryTitle: {
     color: '#000', // Aktif kategori başlık rengi
-    fontSize: 18,  // Boyut sabitlendi
+    fontSize: 11,  // Boyut sabitlendi
   },
   categoryTitle: {
-    fontSize: 16,
+    fontSize: 11,
     fontWeight: 'bold',
     color: '#333', // Genel kategori başlık rengi
+    paddingTop:5,
+    paddingBottom:12
+   
   },
   menuItem: {
     padding: 10,
@@ -222,11 +235,11 @@ const styles = StyleSheet.create({
   },
   menuContainer: {
     paddingLeft: 15,
-  },
-  menuContainerDesserts: {
-    paddingLeft: 15,
-    paddingTop: 10,  // Üstten başlatıyoruz
-  },
+    paddingRight: 15,
+    top:0,
+    width:'100%',
+    minHeight:'100%'
+  }
 });
 
 export default OrderScreen;
