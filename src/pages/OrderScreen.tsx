@@ -11,6 +11,7 @@ import {
   Animated 
 } from 'react-native';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import ProductItem from '../components/ProductItem';
 
 const OrderScreen = () => {
   const [activeCategory, setActiveCategory] = useState('Seasonal Drinks'); // Aktif kategori durumunu takip ediyoruz
@@ -57,6 +58,12 @@ const OrderScreen = () => {
     outputRange: [180, 0],  // Header tamamen kaybolacak şekilde
     extrapolate: 'clamp',
   });
+
+  const categoryMarginTop = scrollY.interpolate({
+    inputRange: [0, 100],  // Kaydırma aralığını belirledik
+    outputRange: [0, -25],  // Kaydırma ile marginTop değeri azalacak
+    extrapolate: 'clamp',  // Değerin bu aralığın dışına çıkmaması için
+});
   
 
   // Aktif kategoriye ait öğeleri getir
@@ -67,7 +74,7 @@ const OrderScreen = () => {
       <View style={styles.fixedTop}>
         <TouchableOpacity style={styles.btnChangeLocation}>
           <Text style={styles.btnChangeLocationText}>CHANGE LOCATION</Text>
-          <FontAwesomeIcon name='arrow-down' size={13} style={{ marginLeft: 5 }} />
+          <FontAwesomeIcon name='arrow-down' size={13} style={{ marginLeft: 5, marginRight:5 }} />
         </TouchableOpacity>
       </View>
 
@@ -91,7 +98,8 @@ const OrderScreen = () => {
         </Animated.View>
 
         {/* Kategoriler (Yatay Kaydırma) */}
-        <ScrollView horizontal style={styles.categoryScroll} showsHorizontalScrollIndicator={false}>
+        <Animated.ScrollView horizontal style={[styles.categoryScroll, { marginTop: categoryMarginTop }]}
+                    showsHorizontalScrollIndicator={false}>
           {categories.map((category) => (
             <TouchableOpacity 
               key={category.id} 
@@ -103,16 +111,19 @@ const OrderScreen = () => {
               </Text>
             </TouchableOpacity>
           ))}
-        </ScrollView>
+        </Animated.ScrollView>
 
         {/* Menü alanı ve kategoriler */}
         <FlatList
           data={activeCategoryData}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <View style={styles.menuItem}>
-              <Text>{item.name}</Text>
-            </View>
+            <ProductItem
+              image={require('../assets/images/latte1.png')} // Ürün resmi
+              price={`£${(parseInt(item.id) % 5) + 2}`}  // Fiyat dinamik olarak
+              name={item.name}
+              description={`Short description for ${item.name}`}
+            />
           )}
           contentContainerStyle={styles.menuContainer}
           showsVerticalScrollIndicator={false}
@@ -151,11 +162,12 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     alignItems: 'center',
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   btnChangeLocationText: {
     fontSize: 12,
     textAlign: 'center',
+    paddingLeft:20
   },
   selectedStore: {
     padding: '3%',
@@ -168,7 +180,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
     shadowRadius: 3,
-    marginVertical: 10,
+    marginVertical: 10
   },
   txtSelectedStoreName: {
     fontWeight: '600',
@@ -202,7 +214,7 @@ const styles = StyleSheet.create({
   categoryScroll: {
     marginTop: 10,
     paddingBottom: 40,
-    height:10,
+    height:10
   },
   categoryContainer: {
     height: 30,
