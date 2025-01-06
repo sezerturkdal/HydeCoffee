@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, ImageSourcePropType } from 'react-native';
+import { View, Text, Image, StyleSheet, ImageSourcePropType, TouchableOpacity } from 'react-native';
+
 
 // Props türünü tanımlıyoruz
 interface ProductItemProps {
@@ -10,7 +11,9 @@ interface ProductItemProps {
 }
 
 const ProductItem: React.FC<ProductItemProps> = ({ image, price, name, description }) => {
-  return (
+ 
+
+  return (  
     <View style={styles.productItemContainer}>
       <Image source={image} style={styles.productImage} />
       <View style={styles.productInfo}>

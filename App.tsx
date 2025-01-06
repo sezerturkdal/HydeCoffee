@@ -1,30 +1,40 @@
 import React from 'react';
-import {
-  StyleSheet,
-  useColorScheme,
-  View
-} from 'react-native';
+import { StyleSheet, useColorScheme, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import WelcomeScreen from './src/pages/WelcomeScreen';
 import OrderScreen from './src/pages/OrderScreen';
+import OrderDetailScreen from './src/pages/OrderDetailScreen'; // Import the detail screen
 import LoyaltyScreen from './src/pages/LoyaltyScreen';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
-import AnimatedTabButton from './src/components/AnimatedTabButton'
-
-
+import AnimatedTabButton from './src/components/AnimatedTabButton';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
+function OrderStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="OrderScreen"
+        component={OrderScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="OrderDetailScreen"
+        component={OrderDetailScreen}
+        options={{ title: 'Order Details' }}
+      />
+    </Stack.Navigator>
+  );
+}
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
   return (
     <NavigationContainer>
-      {/* Bottom Tab Navigator tanımı */}
       <Tab.Navigator
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
@@ -42,16 +52,19 @@ function App(): React.JSX.Element {
           tabBarActiveTintColor: 'tomato',
           tabBarInactiveTintColor: 'gray',
           tabBarStyle: {
-           
-            backgroundColor: 'white', // Tab bar arka plan rengi
-            paddingVertical: 10, // Üst ve alt boşluk
+            backgroundColor: 'white',
+            paddingVertical: 10,
           },
-          tabBarButton: (props) => <View style={{flex:1, alignItems: 'center'}}><AnimatedTabButton {...props} /></View>
+          tabBarButton: (props) => (
+            <View style={{ flex: 1, alignItems: 'center' }}>
+              <AnimatedTabButton {...props} />
+            </View>
+          ),
         })}
       >
         <Tab.Screen name="Welcome" component={WelcomeScreen} options={{ headerShown: false }} />
-        <Tab.Screen name="Order" component={OrderScreen}  options={{ headerShown: false }} />
-        <Tab.Screen name="Loyalty" component={LoyaltyScreen} options={{ headerShown: false }}/>
+        <Tab.Screen name="Order" component={OrderStack} options={{ headerShown: false }} />
+        <Tab.Screen name="Loyalty" component={LoyaltyScreen} options={{ headerShown: false }} />
       </Tab.Navigator>
     </NavigationContainer>
   );

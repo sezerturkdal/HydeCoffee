@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import ProductItem from '../components/ProductItem';
+import { useNavigation } from '@react-navigation/native';
 
 const OrderScreen = () => {
   const [activeCategory, setActiveCategory] = useState('Seasonal Drinks'); // Aktif kategori durumunu takip ediyoruz
@@ -69,6 +70,15 @@ const OrderScreen = () => {
   // Aktif kategoriye ait öğeleri getir
   const activeCategoryData = categories.find(category => category.name === activeCategory)?.data || [];
 
+  const navigation = useNavigation();
+
+  const handlePress = (product: { name: string; price: any; }) => {
+    navigation.navigate('OrderDetailScreen', {
+      productName: product.name,
+      productPrice: product.price,
+    });
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.fixedTop}>
@@ -118,12 +128,18 @@ const OrderScreen = () => {
           data={activeCategoryData}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
+          <TouchableOpacity 
+            onPress={() => handlePress(item)} // item parametresini doğrudan gönderiyoruz
+            style={styles.productItemContainer}
+          >
             <ProductItem
               image={require('../assets/images/latte1.png')} // Ürün resmi
               price={`£${(parseInt(item.id) % 5) + 2}`}  // Fiyat dinamik olarak
               name={item.name}
               description={`Short description for ${item.name}`}
             />
+          </TouchableOpacity>
+          
           )}
           contentContainerStyle={styles.menuContainer}
           showsVerticalScrollIndicator={false}
