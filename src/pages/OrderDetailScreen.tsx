@@ -34,10 +34,16 @@ const OrderDetailScreen: React.FC = ({ route }) => {
     ];
 
     const sizeOptions = [
-        { id: '1', label: 'Small', value: 'Small' },
-        { id: '2', label: 'Medium', value: 'Medium' },
-        { id: '3', label: 'Large', value: 'Large' },
+        { id: '1', label: 'Small', amountOfDrink: '8oz', price: '£3.50' },
+        { id: '2', label: 'Medium', amountOfDrink: '10oz', price: '£3.75' },
+        { id: '3', label: 'Large', amountOfDrink: '12oz', price: '£4.00' },
     ];
+
+    const [selectedOption, setSelectedOption] = useState(null);
+
+    const handlePress = (id) => {
+        setSelectedOption(id);
+    };
 
     const handleOrder = () => {
         const orderDetails = {
@@ -66,22 +72,41 @@ const OrderDetailScreen: React.FC = ({ route }) => {
                 <View style={styles.headerContainer}>
                     <Text style={styles.header}>{productName}</Text>
 
+                    <Text style={styles.description}>Milk over espresso with a layer of microfoam.</Text>
+
+                    <Text style={styles.calorie}>Kcal: 140 - 233</Text>
+
+                    <Text style={styles.allergens}>Allergens: Dairy</Text>
+
 
                     {/* Size */}
-                    <View style={styles.optionContainer}>
-                        <Text style={styles.optionLabel}>Size</Text>
-                        <RadioGroup
-                            radioButtons={sizeOptions}
-                            onPress={(options) =>
-                                setSize(options.find((opt) => opt.selected)?.value || '')
-                            }
-                        />
+                    <Text style={styles.optionHeaderLabel}>Size</Text>
+                    <View style={styles.optinMainContainer}>
+                        {sizeOptions.map((option) => (
+                            <TouchableOpacity
+                                key={option.id}
+                                style={[
+                                    styles.optionContainer,
+                                    selectedOption === option.id && styles.optionSelected,
+                                ]}
+                                onPress={() => handlePress(option.id)}
+                            >
+                                <View style={styles.radioButton}>
+                                    {selectedOption === option.id && <View style={styles.radioButtonSelected} />}
+                                </View>
+                                <View style={styles.textContainer}>
+                                    <Text style={styles.optionLabel}>{option.label}</Text>
+                                    <Text style={styles.optionDescription}>{option.amountOfDrink}</Text>
+                                    <Text style={styles.optionPrice}>{option.price}</Text>
+                                </View>
+                            </TouchableOpacity>
+                        ))}
                     </View>
                 </View>
 
                 {/* Milk Preference */}
-                <View style={styles.optionContainer}>
-                    <Text style={styles.optionLabel}>Milk Preference</Text>
+                <View style={styles.optinMainContainer}>
+                    <Text style={styles.optionHeaderLabel}>Milk Preference</Text>
                     <RadioGroup
                         radioButtons={milkOptions}
                         onPress={(options) =>
@@ -166,8 +191,24 @@ const styles = StyleSheet.create({
     header: {
         fontSize: 24,
         fontWeight: 'bold',
+        marginTop: 20,
         marginBottom: 20,
         textAlign: 'center',
+    },
+    description: {
+        fontSize: 12,
+        marginLeft: 20,
+        marginBottom: 20,
+    },
+    calorie: {
+        fontSize: 12,
+        marginLeft: 20,
+        marginBottom: 20,
+    },
+    allergens: {
+        fontSize: 12,
+        marginLeft: 20,
+        marginBottom: 20,
     },
     imageContainer: {
         flexDirection: 'row',       // Yatayda hizalama için row
@@ -180,8 +221,20 @@ const styles = StyleSheet.create({
         height: 200,  // Görselin yüksekliği
         resizeMode: 'contain',  // Görselin boyutlandırma modu
     },
+    optinMainContainer: {
+        padding: 20,
+        flexDirection: 'row'
+      },
     optionContainer: {
-        marginBottom: 20,
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 10,
+        padding: 10,
+        marginVertical: 5,
+        marginHorizontal: 5,
+        width:'30%'
     },
     optionContainerRow: {
         flexDirection: 'row',
@@ -189,9 +242,47 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 20,
     },
+    optionSelected: {
+        borderColor: '#007BFF',
+        backgroundColor: '#E0F7FF',
+    },
+    radioButton: {
+        height: 20,
+        width: 20,
+        borderRadius: 10,
+        borderWidth: 2,
+        borderColor: '#007BFF',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: 10,
+    },
+    radioButtonSelected: {
+        height: 10,
+        width: 10,
+        borderRadius: 5,
+        backgroundColor: '#007BFF',
+    },
+    textContainer: {
+        flex: 1,
+    },
+    optionHeaderLabel: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginTop: 10,
+        marginLeft: 10
+    },
     optionLabel: {
-        fontSize: 18,
-        marginBottom: 10,
+        fontSize: 10,
+        fontWeight: 'bold',
+    },
+    optionDescription: {
+        fontSize: 10,
+        color: '#666',
+    },
+    optionPrice:{
+        fontSize: 12,
+        color: '#666',
+        marginTop:5
     },
     quantityContainer: {
         flexDirection: 'row',
