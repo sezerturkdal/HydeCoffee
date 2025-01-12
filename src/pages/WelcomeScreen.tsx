@@ -2,11 +2,15 @@ import React from 'react';
 import { View, Text, StyleSheet, Button, SafeAreaView, ScrollView, Image, TouchableOpacity, StatusBar } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../types';
+import { useNavigation } from '@react-navigation/native';
 
 
 type WelcomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Welcome'>;
 
+
+
 const WelcomeScreen = ({ navigation }: WelcomeScreenProps): React.JSX.Element => {
+    
     return (
 
         <SafeAreaView style={styles.safeArea}>
@@ -22,13 +26,16 @@ const WelcomeScreen = ({ navigation }: WelcomeScreenProps): React.JSX.Element =>
                         style={styles.coverPhoto}
                     />
                     <View style={styles.btnSignupContainer}>
-                        <TouchableOpacity style={styles.btnSignUp}>
+                        <TouchableOpacity style={styles.btnSignUp}  onPress={() => navigation.navigate('SignUpScreen')}>
                             <Text style={styles.btnSignUpText}>SIGN UP</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.signInContainer}>
                         <Text style={styles.subtitle}>Already have an account?</Text>
-                        <Text style={styles.txtSignIn}> SIGN IN</Text>
+                        <TouchableOpacity onPress={() => navigation.navigate('SignInScreen')}>
+                            <Text style={styles.txtSignIn}> SIGN IN</Text>
+                        </TouchableOpacity>
+                        
                     </View>
                     <Text style={styles.txtDeliveryPartners}>Our delivery partners</Text>
                     <View style={styles.deliveryCompanyContainer}>

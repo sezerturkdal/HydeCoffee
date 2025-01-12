@@ -9,6 +9,8 @@ import OrderDetailScreen from './src/pages/OrderDetailScreen'; // Import the det
 import LoyaltyScreen from './src/pages/LoyaltyScreen';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import AnimatedTabButton from './src/components/AnimatedTabButton';
+import SignUpScreen from './src/pages/SignUpScreen';
+import SignInScreen from './src/pages/SignInScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -25,6 +27,28 @@ function OrderStack() {
         name="OrderDetailScreen"
         component={OrderDetailScreen}
         options={{ title: 'Order Details' }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function WelcomeStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="WelcomeScreen"
+        component={WelcomeScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="SignUpScreen"
+        component={SignUpScreen}
+        options={{ title: 'Sign up' }}
+      />
+      <Stack.Screen
+        name="SignInScreen"
+        component={SignInScreen}
+        options={{ title: 'Sign in' }}
       />
     </Stack.Navigator>
   );
@@ -62,7 +86,7 @@ function App(): React.JSX.Element {
           ),
         })}
       >
-        <Tab.Screen name="Welcome" component={WelcomeScreen} options={{ headerShown: false }} />
+        <Tab.Screen name="Welcome" component={WelcomeStack} options={{ headerShown: false }} />
         <Tab.Screen name="Order" component={OrderStack} options={{ headerShown: false }} />
         <Tab.Screen name="Loyalty" component={LoyaltyScreen} options={{ headerShown: false }} />
       </Tab.Navigator>

@@ -297,6 +297,7 @@ const styles = StyleSheet.create({
         padding: 10, // İçerik dolgusunu artırdık
     },
     optionContainer: {
+        backgroundColor: '#FFF3E0',
         width: '30%', // Seçeneklerin bir sırada 3 tane görünmesi için genişlik
         alignItems: 'center',
         borderWidth: 1,
@@ -384,8 +385,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#f9f9f9',
     },
     toggleButtonActive: {
-        backgroundColor: '#fabee3',
-        borderColor: '#fabee3',
+        backgroundColor: '#FFF3E0',
+        borderColor: '#FFF3E0',
     },
     toggleButtonText: {
         fontSize: 16,
