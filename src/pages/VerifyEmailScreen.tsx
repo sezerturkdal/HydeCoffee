@@ -10,7 +10,8 @@ import {
 } from 'react-native';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
-const VerifyEmailScreen: React.FC =({ navigation }) => { 
+const VerifyEmailScreen: React.FC = ({ route, navigation }) => {
+    const { email, phone } = route.params;
     const [code, setCode] = useState<string>('');
 
     const handleVerify = () => {
@@ -39,7 +40,7 @@ const VerifyEmailScreen: React.FC =({ navigation }) => {
             </TouchableOpacity>
 
             <Text style={styles.header}>Verify email</Text>
-            <Text style={styles.description}>Code sent to example@gmail.com</Text>
+            <Text style={styles.description}>Code sent to {email}</Text>
             <TouchableOpacity  onPress={() => navigation.navigate('SignUpScreen')}  style={styles.resendCodeButton}>
                     <Text style={styles.txtResendCode}>RESEND CODE</Text>
                 </TouchableOpacity>

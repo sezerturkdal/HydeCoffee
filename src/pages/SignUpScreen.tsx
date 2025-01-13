@@ -41,7 +41,11 @@ const SignUpScreen: React.FC = ({ navigation }) => {
             Alert.alert('Error', 'You must accept the Terms and Privacy Policy to proceed.');
             return;
         }
-        navigation.navigate('VerifyEmailScreen')
+
+        navigation.navigate('VerifyEmailScreen', {
+            email: email,
+            phone: phone,
+          });
     };
 
     return (
