@@ -10,13 +10,26 @@ import {
 } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import DatePicker from 'react-native-date-picker'
 
-const SignUpScreen: React.FC = ({ navigation }) => { 
+const SignUpScreen: React.FC = ({ navigation }) => {
     const [fullName, setFullName] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [phone, setPhone] = useState<string>('');
     const [birthday, setBirthday] = useState<string>('');
     const [isTermsAccepted, setIsTermsAccepted] = useState<boolean>(false);
+
+    const [date, setDate] = useState(new Date())
+    const [open, setOpen] = useState(false)
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString); // ISO formatını Date objesine çevir
+        const day = String(date.getDate()).padStart(2, '0'); // Gün
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Ay (0-indexli olduğu için +1)
+        const year = date.getFullYear(); // Yıl
+      
+        return `${day}-${month}-${year}`; // İstenen format
+      };
 
     const handleSignUp = () => {
         if (!fullName || !email || !phone) {
@@ -39,7 +52,7 @@ const SignUpScreen: React.FC = ({ navigation }) => {
                 style={styles.backButton}
                 onPress={() => navigation.navigate('WelcomeScreen')}
             >
-                <FontAwesomeIcon name='arrow-left' size={14} style={{  paddingVertical: 5, paddingHorizontal: 5 }} />
+                <FontAwesomeIcon name='arrow-left' size={14} style={{ paddingVertical: 5, paddingHorizontal: 5 }} />
             </TouchableOpacity>
 
             <Text style={styles.header}>Sign Up</Text>
@@ -75,7 +88,22 @@ const SignUpScreen: React.FC = ({ navigation }) => {
                 style={styles.input}
                 placeholder="DD-MM-YYYY (Optional)"
                 value={birthday}
-                onChangeText={setBirthday}
+                onFocus={() => setOpen(true)}
+            />
+            <DatePicker
+                modal
+                open={open}
+                date={date}
+                mode="date"
+                minimumDate={new Date("1930-01-01")}
+                maximumDate={new Date("2020-01-01")}
+                onConfirm={(date) => {               
+                    setOpen(false)
+                    setBirthday(formatDate(date))
+                }}
+                onCancel={() => {
+                    setOpen(false)
+                }}
             />
 
             {/* Terms and Privacy Policy */}
@@ -109,7 +137,7 @@ const SignUpScreen: React.FC = ({ navigation }) => {
             {/* Already have an account */}
             <View style={styles.signInContainer}>
                 <Text style={styles.subtitle}>Already have an account?</Text>
-                <TouchableOpacity  onPress={() => navigation.navigate('SignInScreen')} style={styles.signInButton}>
+                <TouchableOpacity onPress={() => navigation.navigate('SignInScreen')} style={styles.signInButton}>
                     <Text style={styles.txtSignIn}> SIGN IN</Text>
                 </TouchableOpacity>
             </View>
@@ -120,7 +148,7 @@ const SignUpScreen: React.FC = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     container: {
-        paddingTop:80,
+        paddingTop: 80,
         flexGrow: 1,
         padding: 20,
         backgroundColor: '#fff',
@@ -174,11 +202,11 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         justifyContent: 'center',
         marginTop: 40
-       
+
     },
     signInButton: {
         justifyContent: 'center',
-        paddingTop:20
+        paddingTop: 20
     },
     txtSignIn: {
         fontSize: 16,
@@ -197,8 +225,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 5,
         borderRadius: 45,
         alignItems: 'center',
-        width:35,
-        height:35
+        width: 35,
+        height: 35
     }
 });
 
