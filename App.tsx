@@ -11,6 +11,7 @@ import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import AnimatedTabButton from './src/components/AnimatedTabButton';
 import SignUpScreen from './src/pages/SignUpScreen';
 import SignInScreen from './src/pages/SignInScreen';
+import VerifyEmailScreen from './src/pages/VerifyEmailScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -49,6 +50,11 @@ function WelcomeStack() {
         name="SignInScreen"
         component={SignInScreen}
         options={{ title: 'Sign in', headerShown: false  }}
+      />
+       <Stack.Screen
+        name="VerifyEmailScreen"
+        component={VerifyEmailScreen}
+        options={{ title: 'Verify Email', headerShown: false  }}
       />
     </Stack.Navigator>
   );
