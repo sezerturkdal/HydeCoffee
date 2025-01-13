@@ -9,6 +9,7 @@ import {
     ScrollView,
 } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 const SignUpScreen: React.FC = ({ navigation }) => { 
     const [fullName, setFullName] = useState<string>('');
@@ -33,6 +34,14 @@ const SignUpScreen: React.FC = ({ navigation }) => {
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
+            {/* Back Button */}
+            <TouchableOpacity
+                style={styles.backButton}
+                onPress={() => navigation.navigate('WelcomeScreen')}
+            >
+                <FontAwesomeIcon name='arrow-left' size={14} style={{  paddingVertical: 5, paddingHorizontal: 5 }} />
+            </TouchableOpacity>
+
             <Text style={styles.header}>Sign Up</Text>
 
             {/* Full Name */}
@@ -111,6 +120,7 @@ const SignUpScreen: React.FC = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     container: {
+        paddingTop:80,
         flexGrow: 1,
         padding: 20,
         backgroundColor: '#fff',
@@ -172,7 +182,7 @@ const styles = StyleSheet.create({
     },
     txtSignIn: {
         fontSize: 16,
-        color: 'green',
+        color: '#a0d88b',
         fontWeight: 'bold',
         marginBottom: 20,
         textAlign: 'center',
@@ -181,6 +191,15 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#6c757d',
     },
+    backButton: {
+        backgroundColor: '#a0d88b',
+        paddingVertical: 5,
+        paddingHorizontal: 5,
+        borderRadius: 45,
+        alignItems: 'center',
+        width:35,
+        height:35
+    }
 });
 
 export default SignUpScreen;

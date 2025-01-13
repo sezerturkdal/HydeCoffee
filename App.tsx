@@ -43,12 +43,12 @@ function WelcomeStack() {
       <Stack.Screen
         name="SignUpScreen"
         component={SignUpScreen}
-        options={{ title: 'Sign up' }}
+        options={{ title: 'Sign up', headerShown: false  }}
       />
       <Stack.Screen
         name="SignInScreen"
         component={SignInScreen}
-        options={{ title: 'Sign in' }}
+        options={{ title: 'Sign in', headerShown: false  }}
       />
     </Stack.Navigator>
   );

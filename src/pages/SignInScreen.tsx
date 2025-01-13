@@ -8,6 +8,7 @@ import {
     Alert,
     ScrollView,
 } from 'react-native';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 const SignInScreen: React.FC =({ navigation }) => { 
     const [phone, setPhone] = useState<string>('');
@@ -29,6 +30,14 @@ const SignInScreen: React.FC =({ navigation }) => {
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
+             {/* Back Button */}
+             <TouchableOpacity
+                style={styles.backButton}
+                onPress={() => navigation.navigate('WelcomeScreen')}
+            >
+                <FontAwesomeIcon name='arrow-left' size={14} style={{  paddingVertical: 5, paddingHorizontal: 5 }} />
+            </TouchableOpacity>
+
             <Text style={styles.header}>Sign In</Text>
 
             {/* Phone */}
@@ -61,6 +70,7 @@ const SignInScreen: React.FC =({ navigation }) => {
 
 const styles = StyleSheet.create({
     container: {
+        paddingTop:80,
         flexGrow: 1,
         padding: 20,
         backgroundColor: '#fff',
@@ -113,6 +123,15 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#6c757d',
     },
+    backButton: {
+        backgroundColor: '#a0d88b',
+        paddingVertical: 5,
+        paddingHorizontal: 5,
+        borderRadius: 45,
+        alignItems: 'center',
+        width:35,
+        height:35
+    }
 });
 
 export default SignInScreen;
