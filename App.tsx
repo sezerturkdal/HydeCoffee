@@ -12,6 +12,7 @@ import AnimatedTabButton from './src/components/AnimatedTabButton';
 import SignUpScreen from './src/pages/SignUpScreen';
 import SignInScreen from './src/pages/SignInScreen';
 import VerifyEmailScreen from './src/pages/VerifyEmailScreen';
+import HomeScreen from './src/pages/HomeScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -44,17 +45,21 @@ function WelcomeStack() {
       <Stack.Screen
         name="SignUpScreen"
         component={SignUpScreen}
-        options={{ title: 'Sign up', headerShown: false  }}
+        options={{ title: 'Sign up', headerShown: false }}
       />
       <Stack.Screen
         name="SignInScreen"
         component={SignInScreen}
-        options={{ title: 'Sign in', headerShown: false  }}
+        options={{ title: 'Sign in', headerShown: false }}
       />
-       <Stack.Screen
+      <Stack.Screen
         name="VerifyEmailScreen"
         component={VerifyEmailScreen}
-        options={{ title: 'Verify Email', headerShown: false  }}
+        options={{ title: 'Verify Email', headerShown: false }}
+      /><Stack.Screen
+        name="HomeScreen"
+        component={HomeScreen}
+        options={{ title: 'Home', headerShown: false }}
       />
     </Stack.Navigator>
   );

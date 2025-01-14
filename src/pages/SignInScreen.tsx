@@ -12,6 +12,7 @@ import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 const SignInScreen: React.FC =({ navigation }) => { 
     const [phone, setPhone] = useState<string>('');
+    
 
     const handleSignUp = () => {
         if (!phone) {

@@ -54,7 +54,7 @@ const WelcomeScreen = ({ navigation }: WelcomeScreenProps): React.JSX.Element =>
                         </View>
                     </View>
 
-                    <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
+                    <Button title="Go to Home" onPress={() => navigation.navigate('HomeScreen')} />
                 </View>
             </ScrollView>
         </SafeAreaView>
