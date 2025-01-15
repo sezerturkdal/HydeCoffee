@@ -13,6 +13,7 @@ import SignUpScreen from './src/pages/SignUpScreen';
 import SignInScreen from './src/pages/SignInScreen';
 import VerifyEmailScreen from './src/pages/VerifyEmailScreen';
 import HomeScreen from './src/pages/HomeScreen';
+import SelectStoreScreen from './src/pages/SelectStoreScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -29,6 +30,11 @@ function OrderStack() {
         name="OrderDetailScreen"
         component={OrderDetailScreen}
         options={{ title: 'Order Details' }}
+      />
+      <Stack.Screen
+        name="SelectStoreScreen"
+        component={SelectStoreScreen}
+        options={{ title: 'SelectStore', headerShown: false }}
       />
     </Stack.Navigator>
   );

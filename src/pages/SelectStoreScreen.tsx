@@ -4,47 +4,18 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../types';
 import { useNavigation } from '@react-navigation/native';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
-import * as Progress from 'react-native-progress';
+import MapView, {Marker} from 'react-native-maps';
 
 
-type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Home'>;
+type SelectStoreScreenProps = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
-const HomeScreen = ({ navigation }: HomeScreenProps): React.JSX.Element => {
+const SelectStoreScreen = ({ navigation }: SelectStoreScreenProps): React.JSX.Element => {
 
     const [greeting, setGreeting] = useState('');
     const [firstName, setFirstName] = useState('');
     const [initials, setInitials] = useState('');
     const userName = 'Samuel Philips '; // Kullanıcı adını buradan alabilirsiniz
 
-    useEffect(() => {
-        const determineGreeting = () => {
-            const currentHour = new Date().getHours();
-            if (currentHour < 12) {
-                return 'Good Morning';
-            } else if (currentHour < 18) {
-                return 'Good Afternoon';
-            } else {
-                return 'Good Evening';
-            }
-        };
-        setGreeting(determineGreeting());
-        getInitials(userName)
-    }, []); // Sadece başlangıçta çalışır
-
-    const getInitials = (userName: string) => {
-        const nameParts = userName.trim().split(' ');
-
-        // Eğer sadece bir kelime varsa, ilk harfini al
-        if (nameParts.length === 1) {
-            return nameParts[0][0].toUpperCase();
-        }
-        setFirstName(nameParts[0]);
-        // İlk ve son kelimelerin ilk harflerini al
-        const firstInitial = nameParts[0][0].toUpperCase();
-        const lastInitial = nameParts[nameParts.length - 1][0].toUpperCase();
-
-        setInitials(firstInitial + lastInitial);
-    };
 
     return (
 
@@ -53,50 +24,27 @@ const HomeScreen = ({ navigation }: HomeScreenProps): React.JSX.Element => {
                 contentContainerStyle={styles.scrollContainer}
                 contentInsetAdjustmentBehavior="automatic">
                 <View style={styles.container}>
-                    <View style={{ flexDirection: "row", alignItems: 'center' }}>
-                        <View style={styles.initialsButtonBorder}>
-                            <TouchableOpacity
-                                style={styles.initialsButton}
-                                onPress={() => navigation.navigate('WelcomeScreen')}
-                            >
-                                <Text style={styles.txtInitials}>{initials}</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <Text style={styles.brandText}>
-                            HYDE COFFEE
-                        </Text>
+                    <View style={{ flexDirection: "row", alignItems: 'center', width:'100%' }}>
+                        {/* Back Button */}
+                        <TouchableOpacity
+                            style={styles.backButton}
+                            onPress={() => navigation.navigate('OrderScreen')}
+                        >
+                            <FontAwesomeIcon name='arrow-left' size={14} style={{ paddingVertical: 5, paddingHorizontal: 5 }} />
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.locationButton}
+                            onPress={() => navigation.navigate('WelcomeScreen')}
+                        >
+                            <FontAwesomeIcon name='map-marker' size={14} style={{ paddingVertical: 5, paddingHorizontal: 5 }} />
+                        </TouchableOpacity>
                     </View>
 
                     <View style={styles.titleContainer}>
                         <Text style={styles.greetingText}>
-                            {greeting}, {firstName}!
+                           
                         </Text>
                     </View>
-
-                    <Text style={styles.whatsNewText}>
-                        What's new
-                    </Text>
-
-                    <Image
-                        source={require('../assets/images/coffee-ad.jpg')}
-                        style={styles.coverPhoto}
-                    />
-                    <Text style={styles.whatsNewText}>
-                        Rewards
-                    </Text>
-                    <View style={{ flexDirection: 'row', alignItems: 'center',  marginLeft: 10 }}>
-                        <FontAwesomeIcon name='star' size={14} style={{ paddingVertical: 5, paddingHorizontal: 5, color: '#edd832' }} />
-                        <Text style={{ fontSize: 16 }}>0 point</Text>
-                    </View>
-                    <Text style={{ fontSize: 12, marginLeft:35 }}>Get started earning points</Text>
-                    <View style={{alignItems:'center', marginTop:10}}>
-                    <Progress.Bar progress={0.3} color='#000000' useNativeDriver={true} width={null} style={{width:'80%'}} />
-                    </View>
-                    <View style={{alignItems:'center', marginBottom:30, marginTop:3, flexDirection:'row'}}>
-                    <Text style={{ fontSize: 12, left:35 }}>0</Text>
-                    <Text style={{ fontSize: 12, right:35 , textAlign:'right', position:'absolute'}}>100</Text>
-                    </View>
-                    
                     <View style={styles.btnReedemContainer}>
                         <TouchableOpacity style={styles.btnReedem} onPress={() => navigation.navigate('SignUpScreen')}>
                             <Text style={styles.btnReedemText}>REEDEM AT CHECKOUT</Text>
@@ -122,7 +70,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#ffffff',
         width: '100%',
-        paddingBottom:50
+        paddingBottom: 50
     },
     titleContainer: {
         alignItems: 'center',
@@ -192,17 +140,26 @@ const styles = StyleSheet.create({
         marginLeft: 30,
         marginTop: 30
     },
-    btnDeliveryCompany: {
-        width: '90%',
-        height: 60,
-        backgroundColor: '#edebeb',
-        borderRadius: 10,
+    backButton: {
+        backgroundColor: '#a0d88b',
+        paddingVertical: 5,
+        paddingHorizontal: 5,
+        borderRadius: 45,
         alignItems: 'center',
-        flexDirection: 'row',
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.50,
-        shadowRadius: 3,
+        width:35,
+        height:35,
+        left:5,
+    },
+    locationButton:{
+        backgroundColor: '#a0d88b',
+        paddingVertical: 5,
+        paddingHorizontal: 5,
+        borderRadius: 45,
+        alignItems: 'center',
+        width:35,
+        height:35,
+        right:5,
+        position:'absolute'
     },
     deliveryCompanyContainer: {
         marginTop: 10,
@@ -282,4 +239,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default HomeScreen;
+export default SelectStoreScreen;
