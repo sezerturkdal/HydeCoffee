@@ -38,7 +38,7 @@ const SelectStoreScreen = ({ navigation }: SelectStoreScreenProps): React.JSX.El
             description: "119 Camp Road, London",
             postcode: 'SW12 0RT',
             status: "Open",
-            image:'https://picsum.photos/200/300',
+            image:'https://news.completelyretail.co.uk/wp-content/uploads/2024/05/wimbledon-quarter-1024x682.jpg',
             latitude: 51.417320,
             longitude: -0.215696,
         },
@@ -48,7 +48,7 @@ const SelectStoreScreen = ({ navigation }: SelectStoreScreenProps): React.JSX.El
             description: "35 High Street, London",
             postcode: 'NT3 7YT',
             status: "Closed",
-            image:'https://picsum.photos/200/300',
+            image:'https://i.pinimg.com/474x/bc/7f/66/bc7f66a93254fc2d94b59cfd738e81aa.jpg',
             latitude: 51.462534,
             longitude: -0.215517
         }]

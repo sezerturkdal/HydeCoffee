@@ -19,32 +19,32 @@ import { useRoute } from '@react-navigation/native';
 const OrderScreen = () => {
   const route = useRoute();
 
-    // Varsayılan store bilgisi
-    const defaultStore = {
-        index: 0,
-        title: "Kingston",
-        description: "24 Denmark Street",
-        postcode: 'KT32 5FT',
-        status: "Open",
-        image:'',
-        latitude: 52.40355,
-        longitude: -0.215517,
-    };
+  // Varsayılan store bilgisi
+  const defaultStore = {
+    index: 0,
+    title: "Kingston",
+    description: "24 Denmark Street",
+    postcode: 'KT32 5FT',
+    status: "Open",
+    image: '',
+    latitude: 52.40355,
+    longitude: -0.215517,
+  };
 
-    // State oluştur
-    const [selectedStore, setSelectedStore] = useState(defaultStore);
+  // State oluştur
+  const [selectedStore, setSelectedStore] = useState(defaultStore);
 
-    // route.params değiştiğinde state'i güncelle
-    useEffect(() => {
-        if (route.params?.selectedStore) {
-            setSelectedStore(route.params.selectedStore);
-        }
-    }, [route.params?.selectedStore]);
+  // route.params değiştiğinde state'i güncelle
+  useEffect(() => {
+    if (route.params?.selectedStore) {
+      setSelectedStore(route.params.selectedStore);
+    }
+  }, [route.params?.selectedStore]);
 
   const [activeCategory, setActiveCategory] = useState('Seasonal Drinks'); // Aktif kategori durumunu takip ediyoruz
   const scrollY = useRef(new Animated.Value(0)).current;
 
-  
+
   // Kategoriler ve her kategorinin öğeleri
   const categories = [
     {
@@ -94,6 +94,8 @@ const OrderScreen = () => {
   });
 
 
+
+
   // Aktif kategoriye ait öğeleri getir
   const activeCategoryData = categories.find(category => category.name === activeCategory)?.data || [];
 
@@ -135,7 +137,7 @@ const OrderScreen = () => {
               <Text style={styles.selectedStoreDescription}>{selectedStore.description}</Text>
               <Text style={styles.selectedStoreDescription}>Open today 6:30AM-7:00PM</Text>
               <TouchableOpacity style={styles.btnStoreStatus}>
-                
+
                 <Text style={styles.btnStoreStatusText}>{selectedStore.status}</Text>
               </TouchableOpacity>
             </View>
@@ -191,10 +193,11 @@ const OrderScreen = () => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: '#fff8f5',
   },
   container: {
     flex: 1,
+    backgroundColor: '#fff8f5',
   },
   fixedTop: {
     position: 'absolute',
@@ -221,16 +224,16 @@ const styles = StyleSheet.create({
     paddingLeft: 20
   },
   selectedStore: {
-    padding: '3%',
+    padding: '5%',
     marginTop: 60, // Üst alan biraz aşağıda başlasın
     width: '90%',
     alignSelf: 'center',
     borderRadius: 20,
-    backgroundColor: '#edebeb',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.5,
-    shadowRadius: 3,
+    backgroundColor: '#fff',
+    shadowOffset: { width: 0, height: 2 }, // Shadow offset for iOS
+    shadowOpacity: 0.2, // Shadow opacity for iOS
+    shadowRadius: 4, // Shadow blur radius for iOS
+    elevation: 5, // Shadow for Android
     marginVertical: 10
   },
   txtSelectedStoreName: {

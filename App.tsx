@@ -29,7 +29,7 @@ function OrderStack() {
       <Stack.Screen
         name="OrderDetailScreen"
         component={OrderDetailScreen}
-        options={{ title: 'Order Details' }}
+        options={{ title: 'Order Details',  headerShown: false }}
       />
       <Stack.Screen
         name="SelectStoreScreen"

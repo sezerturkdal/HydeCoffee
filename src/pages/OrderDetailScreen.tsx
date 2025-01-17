@@ -9,8 +9,9 @@ import {
     Image,  // Image bileşenini import et
 } from 'react-native';
 import RadioGroup from 'react-native-radio-buttons-group';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
-const OrderDetailScreen: React.FC = ({ route }) => {
+const OrderDetailScreen: React.FC = ({ route, navigation }) => {
     const { productName, productPrice } = route.params;
     const [milkPreference, setMilkPreference] = useState<string>('Whole Milk');
     const [temperature, setTemperature] = useState<string>('Hot');
@@ -83,6 +84,13 @@ const OrderDetailScreen: React.FC = ({ route }) => {
     return (
         <SafeAreaView style={styles.safeArea}>
             <ScrollView contentContainerStyle={styles.container}>
+                 {/* Back Button */}
+             <TouchableOpacity
+                style={styles.backButton}
+                onPress={() => navigation.navigate('OrderScreen')}
+            >
+                <FontAwesomeIcon name='arrow-left' size={14} style={{  paddingVertical: 5, paddingHorizontal: 5 }} />
+            </TouchableOpacity>
                 {/* Ürün Görseli */}
                 <View style={styles.imageContainer}>
                     <Image
@@ -248,14 +256,20 @@ const OrderDetailScreen: React.FC = ({ route }) => {
 const styles = StyleSheet.create({
     safeArea: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#fff8f5',
     },
     container: {
         padding: 20,
+        backgroundColor: '#fff8f5',
     },
     headerContainer: {
         borderRadius: 10,
-        borderWidth: 0.4
+        backgroundColor: '#fff',
+        shadowColor: '#000', // Shadow color
+        shadowOffset: { width: 0, height: 2 }, // Shadow offset for iOS
+        shadowOpacity: 0.2, // Shadow opacity for iOS
+        shadowRadius: 4, // Shadow blur radius for iOS
+        elevation: 5, // Shadow for Android
     },
     header: {
         fontSize: 24,
@@ -297,7 +311,7 @@ const styles = StyleSheet.create({
         padding: 10, // İçerik dolgusunu artırdık
     },
     optionContainer: {
-        backgroundColor: '#FFF3E0',
+        backgroundColor: '#fff8f5',
         width: '30%', // Seçeneklerin bir sırada 3 tane görünmesi için genişlik
         alignItems: 'center',
         borderWidth: 1,
@@ -315,15 +329,15 @@ const styles = StyleSheet.create({
         padding: 20
     },
     optionSelected: {
-        borderColor: '#007BFF',
-        backgroundColor: '#E0F7FF',
+        borderColor: '#599974',
+       
     },
     radioButton: {
         height: 20,
         width: 20,
         borderRadius: 10,
         borderWidth: 2,
-        borderColor: '#007BFF',
+        borderColor: '#599974',
         justifyContent: 'center',
         alignItems: 'center',
         marginRight: 10,
@@ -332,7 +346,7 @@ const styles = StyleSheet.create({
         height: 10,
         width: 10,
         borderRadius: 5,
-        backgroundColor: '#007BFF',
+        backgroundColor: '#599974',
     },
     textContainer: {
         flex: 1,
@@ -385,7 +399,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#f9f9f9',
     },
     toggleButtonActive: {
-        backgroundColor: '#FFF3E0',
+        backgroundColor: '#599974',
         borderColor: '#FFF3E0',
     },
     toggleButtonText: {
@@ -394,7 +408,7 @@ const styles = StyleSheet.create({
     },
     orderButton: {
         marginTop: 30,
-        backgroundColor: '#ff9900',
+        backgroundColor: '#599974',
         paddingVertical: 15,
         borderRadius: 8,
         alignItems: 'center',
@@ -407,7 +421,20 @@ const styles = StyleSheet.create({
     sectionContainer:{
         marginTop:20,
         borderRadius: 10,
-        borderWidth: 0.4
+        backgroundColor: '#fff',
+        shadowOffset: { width: 0, height: 2 }, // Shadow offset for iOS
+        shadowOpacity: 0.2, // Shadow opacity for iOS
+        shadowRadius: 4, // Shadow blur radius for iOS
+        elevation: 5, // Shadow for Android
+    },
+    backButton: {
+        backgroundColor: '#a0d88b',
+        paddingVertical: 5,
+        paddingHorizontal: 5,
+        borderRadius: 45,
+        alignItems: 'center',
+        width: 35,
+        height: 35
     }
 });
 
