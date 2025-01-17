@@ -1,0 +1,271 @@
+[
+    {
+      "id": "1",
+      "name": "Seasonal Drinks",
+      "data": [
+        {
+          "id": "1",
+          "image": "../assets/images/latte1.png",
+          "price": "£3.50",
+          "name": "Pumpkin Spice Latte",
+          "description": "A warm blend of pumpkin, spices, and espresso."
+        },
+        {
+          "id": "2",
+          "image": "../assets/images/latte1.png",
+          "price": "£3.80",
+          "name": "Gingerbread Latte",
+          "description": "A festive latte with gingerbread syrup and whipped cream."
+        },
+        {
+          "id": "3",
+          "image": "../assets/images/latte1.png",
+          "price": "£4.00",
+          "name": "Mint Mocha",
+          "description": "A sweet mix of mint and chocolate with a shot of espresso."
+        },
+        {
+          "id": "4",
+          "image": "../assets/images/latte1.png",
+          "price": "£3.20",
+          "name": "Hot Apple Cider",
+          "description": "Warm apple cider with a hint of cinnamon and nutmeg."
+        },
+        {
+          "id": "5",
+          "image": "../assets/images/latte1.png",
+          "price": "£3.90",
+          "name": "Eggnog Latte",
+          "description": "Rich eggnog mixed with espresso and steamed milk."
+        },
+        {
+          "id": "6",
+          "image": "../assets/images/latte1.png",
+          "price": "£4.20",
+          "name": "Caramel Brûlée Latte",
+          "description": "Espresso with caramel syrup, steamed milk, and whipped cream."
+        },
+        {
+          "id": "7",
+          "image": "../assets/images/latte1.png",
+          "price": "£3.50",
+          "name": "Toasted Marshmallow Mocha",
+          "description": "Rich chocolate and toasted marshmallow flavors."
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Hot Drinks",
+      "data": [
+        {
+          "id": "8",
+          "image": "../assets/images/latte1.png",
+          "price": "£2.50",
+          "name": "Americano",
+          "description": "A classic espresso with hot water."
+        },
+        {
+          "id": "9",
+          "image": "../assets/images/latte1.png",
+          "price": "£3.00",
+          "name": "Cappuccino",
+          "description": "Espresso topped with steamed milk and a layer of foam."
+        },
+        {
+          "id": "10",
+          "image": "../assets/images/latte1.png",
+          "price": "£2.80",
+          "name": "Hot Chocolate",
+          "description": "Rich and creamy hot chocolate topped with whipped cream."
+        },
+        {
+          "id": "11",
+          "image": "../assets/images/latte1.png",
+          "price": "£3.00",
+          "name": "Flat White",
+          "description": "A velvety smooth espresso with steamed milk."
+        },
+        {
+          "id": "12",
+          "image": "../assets/images/latte1.png",
+          "price": "£2.00",
+          "name": "Espresso",
+          "description": "A single shot of strong, aromatic coffee."
+        },
+        {
+          "id": "13",
+          "image": "../assets/images/latte1.png",
+          "price": "£2.50",
+          "name": "Macchiato",
+          "description": "Espresso with a small dollop of steamed milk foam."
+        },
+        {
+          "id": "14",
+          "image": "../assets/images/latte1.png",
+          "price": "£3.20",
+          "name": "Mocha",
+          "description": "Espresso, chocolate syrup, and steamed milk."
+        },
+        {
+          "id": "15",
+          "image": "../assets/images/latte1.png",
+          "price": "£2.20",
+          "name": "Chai Latte",
+          "description": "A spiced tea blend with steamed milk and foam."
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "name": "Iced Drinks",
+      "data": [
+        {
+          "id": "16",
+          "image": "../assets/images/latte1.png",
+          "price": "£3.00",
+          "name": "Iced Latte",
+          "description": "Smooth espresso poured over chilled milk and ice."
+        },
+        {
+          "id": "17",
+          "image": "../assets/images/latte1.png",
+          "price": "£3.50",
+          "name": "Iced Mocha",
+          "description": "Espresso and chocolate syrup over ice with milk."
+        },
+        {
+          "id": "18",
+          "image": "../assets/images/latte1.png",
+          "price": "£3.80",
+          "name": "Iced Matcha Latte",
+          "description": "A creamy and refreshing matcha drink."
+        },
+        {
+          "id": "19",
+          "image": "../assets/images/latte1.png",
+          "price": "£2.50",
+          "name": "Iced Tea",
+          "description": "Chilled and refreshing iced tea with lemon."
+        },
+        {
+          "id": "20",
+          "image": "../assets/images/latte1.png",
+          "price": "£3.20",
+          "name": "Cold Brew Coffee",
+          "description": "Slow-steeped cold brew for a smooth, bold taste."
+        },
+        {
+          "id": "21",
+          "image": "../assets/images/latte1.png",
+          "price": "£3.80",
+          "name": "Iced Caramel Macchiato",
+          "description": "Espresso, caramel syrup, and milk over ice."
+        },
+        {
+          "id": "22",
+          "image": "../assets/images/latte1.png",
+          "price": "£3.40",
+          "name": "Iced Americano",
+          "description": "Espresso poured over ice and water."
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "name": "Baked Goods",
+      "data": [
+        {
+          "id": "23",
+          "image": "../assets/images/latte1.png",
+          "price": "£1.80",
+          "name": "Butter Croissant",
+          "description": "A flaky and buttery classic croissant."
+        },
+        {
+          "id": "24",
+          "image": "../assets/images/latte1.png",
+          "price": "£1.50",
+          "name": "Chocolate Chip Cookie",
+          "description": "Soft and chewy cookie with rich chocolate chips."
+        },
+        {
+          "id": "25",
+          "image": "../assets/images/latte1.png",
+          "price": "£2.20",
+          "name": "Blueberry Muffin",
+          "description": "A moist muffin loaded with blueberries."
+        },
+        {
+          "id": "26",
+          "image": "../assets/images/latte1.png",
+          "price": "£2.00",
+          "name": "Toasted Bagel",
+          "description": "A toasted bagel served with cream cheese."
+        },
+        {
+          "id": "27",
+          "image": "../assets/images/latte1.png",
+          "price": "£2.50",
+          "name": "Apple Pie Slice",
+          "description": "A slice of classic apple pie with cinnamon."
+        },
+        {
+          "id": "28",
+          "image": "../assets/images/latte1.png",
+          "price": "£2.70",
+          "name": "Cinnamon Roll",
+          "description": "A soft roll with cinnamon and icing."
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "name": "Retail",
+      "data": [
+        {
+          "id": "29",
+          "image": "../assets/images/latte1.png",
+          "price": "£8.00",
+          "name": "Coffee Beans (500g)",
+          "description": "Premium coffee beans for home brewing."
+        },
+        {
+          "id": "30",
+          "image": "../assets/images/latte1.png",
+          "price": "£5.00",
+          "name": "Tea Bags (50 count)",
+          "description": "A selection of premium tea bags."
+        },
+        {
+          "id": "31",
+          "image": "../assets/images/latte1.png",
+          "price": "£12.00",
+          "name": "Reusable Tumbler",
+          "description": "A stylish tumbler to keep your drinks warm or cold."
+        },
+        {
+          "id": "32",
+          "image": "../assets/images/latte1.png",
+          "price": "£10.00",
+          "name": "Ceramic Coffee Cup",
+          "description": "A durable ceramic cup for your coffee."
+        },
+        {
+          "id": "33",
+          "image": "../assets/images/latte1.png",
+          "price": "£25.00",
+          "name": "Coffee Grinder",
+          "description": "A manual grinder for fresh ground coffee."
+        },
+        {
+          "id": "34",
+          "image": "../assets/images/latte1.png",
+          "price": "£7.00",
+          "name": "French Press",
+          "description": "A classic French press for brewing coffee."
+        }
+      ]
+    }
+  ]
+  
