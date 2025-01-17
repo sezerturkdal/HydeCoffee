@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   View,
   Text,
@@ -13,11 +13,38 @@ import {
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import ProductItem from '../components/ProductItem';
 import { useNavigation } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
+
 
 const OrderScreen = () => {
+  const route = useRoute();
+
+    // Varsayılan store bilgisi
+    const defaultStore = {
+        index: 0,
+        title: "Kingston",
+        description: "24 Denmark Street",
+        postcode: 'KT32 5FT',
+        status: "Open",
+        image:'',
+        latitude: 52.40355,
+        longitude: -0.215517,
+    };
+
+    // State oluştur
+    const [selectedStore, setSelectedStore] = useState(defaultStore);
+
+    // route.params değiştiğinde state'i güncelle
+    useEffect(() => {
+        if (route.params?.selectedStore) {
+            setSelectedStore(route.params.selectedStore);
+        }
+    }, [route.params?.selectedStore]);
+
   const [activeCategory, setActiveCategory] = useState('Seasonal Drinks'); // Aktif kategori durumunu takip ediyoruz
   const scrollY = useRef(new Animated.Value(0)).current;
 
+  
   // Kategoriler ve her kategorinin öğeleri
   const categories = [
     {
@@ -98,18 +125,18 @@ const OrderScreen = () => {
       <View style={styles.container}>
         {/* Üst alan */}
         <Animated.View style={[styles.selectedStore, { opacity: headerOpacity, height: headerHeight }]}>
-          <Text style={styles.txtSelectedStoreName}>King's Road</Text>
+          <Text style={styles.txtSelectedStoreName}>{selectedStore.title}</Text>
           <View style={{ flexDirection: 'row' }}>
             <Image
               style={styles.storeImage}
-              source={require('../assets/images/deliveroo_logo.jpeg')} // Kendi resminizi ekleyin
+              source={{ uri: selectedStore.image }} // Kendi resminizi ekleyin
             />
             <View style={{ flexDirection: 'column' }}>
-              <Text style={styles.selectedStoreDescription}>67 King's Road, London</Text>
+              <Text style={styles.selectedStoreDescription}>{selectedStore.description}</Text>
               <Text style={styles.selectedStoreDescription}>Open today 6:30AM-7:00PM</Text>
               <TouchableOpacity style={styles.btnStoreStatus}>
                 
-                <Text style={styles.btnStoreStatusText}>CLOSED</Text>
+                <Text style={styles.btnStoreStatusText}>{selectedStore.status}</Text>
               </TouchableOpacity>
             </View>
           </View>
