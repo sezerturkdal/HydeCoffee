@@ -14,6 +14,7 @@ import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import ProductItem from '../components/ProductItem';
 import { useNavigation } from '@react-navigation/native';
 import { useRoute } from '@react-navigation/native';
+import productsData from '../assets/data/products.json';
 
 
 const OrderScreen = () => {
@@ -41,9 +42,15 @@ const OrderScreen = () => {
     }
   }, [route.params?.selectedStore]);
 
-  const [activeCategory, setActiveCategory] = useState('Seasonal Drinks'); // Aktif kategori durumunu takip ediyoruz
   const scrollY = useRef(new Animated.Value(0)).current;
 
+  const [activeCategory, setActiveCategory] = useState(productsData[0].name);
+
+  // Aktif kategoriye göre ürünleri filtreleme
+  const getProductsByCategory = () => {
+    const category = productsData.find((cat) => cat.name === activeCategory);
+    return category ? category.data : [];
+  };
 
   // Kategoriler ve her kategorinin öğeleri
   const categories = [
@@ -105,6 +112,13 @@ const OrderScreen = () => {
     navigation.navigate('OrderDetailScreen', {
       productName: product.name,
       productPrice: product.price,
+      sizeOption: product.sizeOption,
+      milkOption:product.milkOption,
+      temperatureOption:product.temperatureOption,
+      extraShotOption:product.extraShotOption,
+      ownCupOption:product.ownCupOption,
+      coffeeTypeOption:product.coffeeTypeOption,
+      flavorsOption:product.flavorsOption
     });
   };
 
@@ -147,14 +161,14 @@ const OrderScreen = () => {
         {/* Kategoriler (Yatay Kaydırma) */}
         <Animated.ScrollView horizontal style={[styles.categoryScroll, { marginTop: categoryMarginTop }]}
           showsHorizontalScrollIndicator={false}>
-          {categories.map((category) => (
+          {productsData.map((item) => (
             <TouchableOpacity
-              key={category.id}
-              style={[styles.categoryContainer, activeCategory === category.name && styles.activeCategory]}
-              onPress={() => setActiveCategory(category.name)}
+              keyExtractor={(item) => item.categoryId}
+              style={[styles.categoryContainer, activeCategory === item.name && styles.activeCategory]}
+              onPress={() => setActiveCategory(item.name)}
             >
-              <Text style={[styles.categoryTitle, activeCategory === category.name && styles.activeCategoryTitle]}>
-                {category.name}
+              <Text style={[styles.categoryTitle, activeCategory === item.name && styles.activeCategoryTitle]}>
+                {item.name}
               </Text>
             </TouchableOpacity>
           ))}
@@ -162,7 +176,7 @@ const OrderScreen = () => {
 
         {/* Menü alanı ve kategoriler */}
         <FlatList
-          data={activeCategoryData}
+          data={getProductsByCategory()}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <TouchableOpacity
@@ -171,9 +185,9 @@ const OrderScreen = () => {
             >
               <ProductItem
                 image={require('../assets/images/latte1.png')} // Ürün resmi
-                price={`£${(parseInt(item.id) % 5) + 2}`}  // Fiyat dinamik olarak
+                price={item.price}  // Fiyat dinamik olarak
                 name={item.name}
-                description={`Short description for ${item.name}`}
+                description={item.description}
               />
             </TouchableOpacity>
 
