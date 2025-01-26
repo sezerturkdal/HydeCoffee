@@ -111,7 +111,7 @@ const OrderScreen = () => {
   const handlePress = (product: { name: string; price: any; }) => {
     navigation.navigate('OrderDetailScreen', {
       productName: product.name,
-      productPrice: product.price,
+      productPrice: parseFloat(product.price),
       sizeOption: product.sizeOption,
       milkOption:product.milkOption,
       temperatureOption:product.temperatureOption,

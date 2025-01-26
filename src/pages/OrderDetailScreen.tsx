@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     View,
     Text,
@@ -12,9 +12,9 @@ import RadioGroup from 'react-native-radio-buttons-group';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 const OrderDetailScreen: React.FC = ({ route, navigation }) => {
-    
+
     const {
-        productName, 
+        productName,
         productPrice,
         sizeOption,
         milkOption,
@@ -23,66 +23,67 @@ const OrderDetailScreen: React.FC = ({ route, navigation }) => {
         ownCupOption,
         coffeeTypeOption,
         flavorsOption
-      } = route.params;
+    } = route.params;
 
 
     const milkOptions = [
-        { id: '1', label: 'Whole', extraPrice: 0 },
-        { id: '2', label: 'Skimmed', extraPrice: 0 },
-        { id: '3', label: 'Semi Skimmed', extraPrice: 0 },
-        { id: '4', label: 'Soya', extraPrice: 0.45 },
-        { id: '5', label: 'Oat', extraPrice: 0.45 },
-        { id: '6', label: 'Coconut', extraPrice: 0.60 },
+        { id: 1, label: 'Whole', extraPrice: 0.00 },
+        { id: 2, label: 'Skimmed', extraPrice: 0.00 },
+        { id: 3, label: 'Semi Skimmed', extraPrice: 0.00 },
+        { id: 4, label: 'Soya', extraPrice: 0.45 },
+        { id: 5, label: 'Oat', extraPrice: 0.45 },
+        { id: 6, label: 'Coconut', extraPrice: 0.60 },
     ];
 
     const temperatureOptions = [
-        { id: '1', label: 'Standard' },
-        { id: '2', label: 'Extra Hot' }
+        { id: 1, label: 'Standard' },
+        { id: 2, label: 'Extra Hot' }
     ];
 
     const extraShotOptions = [
-        { id: '1', label: 'Standard' },
-        { id: '2', label: '+1 Shot' }
+        { id: 1, label: 'Standard', extraPrice: 0.00 },
+        { id: 2, label: '+1 Shot', extraPrice: 0.50 }
     ];
 
     const sizeOptions = [
-        { id: '1', label: 'Small', amountOfDrink: '8oz', price: '£3.50' },
-        { id: '2', label: 'Medium', amountOfDrink: '10oz', price: '£3.75' },
-        { id: '3', label: 'Large', amountOfDrink: '12oz', price: '£4.00' },
+        { id: 1, label: 'Small', amountOfDrink: '8oz', price: -0.20 },
+        { id: 2, label: 'Medium', amountOfDrink: '10oz', price: 0.00 },
+        { id: 3, label: 'Large', amountOfDrink: '12oz', price: 0.20 },
     ];
 
     const coffeeTypeOptions = [
-        { id: '1', label: 'Standard' },
-        { id: '2', label: 'Seasonal Beans', extraPrice: 0.30 },
-        { id: '3', label: 'Decaf', extraPrice: 0.10 }
+        { id: 1, label: 'Standard', extraPrice: 0.00 },
+        { id: 2, label: 'Seasonal Beans', extraPrice: 0.30 },
+        { id: 3, label: 'Decaf', extraPrice: 0.10 }
     ];
 
     const flavorOptions = [
-        { id: '1', label: 'Hazelnut', extraPrice: 0.50 },
-        { id: '2', label: 'Vanilla', extraPrice: 0.50 },
-        { id: '3', label: 'Caramel', extraPrice: 0.50 }
+        { id: 1, label: 'Hazelnut', extraPrice: 0.50 },
+        { id: 2, label: 'Vanilla', extraPrice: 0.50 },
+        { id: 3, label: 'Caramel', extraPrice: 0.50 }
     ];
 
 
-    const [selectedOptionForSize, setSelectedOptionForSize] = useState('2');
-    const [selectedOptionForMilk, setSelectedOptionForMilk] = useState('3');
-    const [selectedOptionForTemperature, setSelectedOptionForTemperature] = useState('1');
-    const [selectedOptionForExtraShot, setSelectedOptionForExtraShot] = useState('1');
+    const [selectedOptionForSize, setSelectedOptionForSize] = useState(2);
+    const [selectedOptionForMilk, setSelectedOptionForMilk] = useState(3);
+    const [selectedOptionForTemperature, setSelectedOptionForTemperature] = useState(1);
+    const [selectedOptionForExtraShot, setSelectedOptionForExtraShot] = useState(1);
     const [selectedOptionForFlavor, setSelectedOptionForFlavor] = useState(null);
-    const [selectedOptionForCoffeeType, setSelectedOptionForCoffeeType] = useState('1');
+    const [selectedOptionForCoffeeType, setSelectedOptionForCoffeeType] = useState(1);
     const [useOwnCup, setUseOwnCup] = useState<boolean>(false);
     const [quantity, setQuantity] = useState<number>(1);
+    const [currentPrice, setCurrentPrice] = useState<number>(productPrice.toFixed(2));
 
-    const handlePressSize = (id) => {
-        setSelectedOptionForSize(id);
+    const handlePressSize = (option) => {
+        setSelectedOptionForSize(option.id);
     };
 
     const handlePressMilk = (id) => {
         setSelectedOptionForMilk(id);
     };
 
-    const handlePressCoffeeType = (id) => {
-        setSelectedOptionForCoffeeType(id);
+    const handlePressCoffeeType = (coffeeType) => {
+        setSelectedOptionForCoffeeType(coffeeType.id);
     };
 
     const handlePressTemperature = (id) => {
@@ -94,20 +95,49 @@ const OrderDetailScreen: React.FC = ({ route, navigation }) => {
     };
 
     const handlePressFlavor = (id) => {
-        if(selectedOptionForFlavor==id){
+        if (selectedOptionForFlavor == id) {
             setSelectedOptionForFlavor(null);
-        }else{
+        } else {
             setSelectedOptionForFlavor(id);
         }
     };
 
+    useEffect(() => {
+        if (selectedOptionForCoffeeType !== null
+            || selectedOptionForExtraShot !== null
+            || selectedOptionForFlavor !== null
+            || selectedOptionForMilk !== null
+            || selectedOptionForSize !== null) {
+            calculatePrice();
+        }
+    }, [selectedOptionForCoffeeType, selectedOptionForExtraShot, selectedOptionForFlavor, selectedOptionForMilk, selectedOptionForSize]);
+
+    const calculatePrice = () => {
+        const selectedSizePrice = sizeOptions.find(option => option.id === selectedOptionForSize)?.price ?? 0;
+        const selectedMilkPrice = milkOptions.find(option => option.id === selectedOptionForMilk)?.extraPrice ?? 0;
+        const selectedFlavorPrice = flavorOptions.find(option => option.id === selectedOptionForFlavor)?.extraPrice ?? 0;
+        const selectedCoffeeTypePrice = coffeeTypeOptions.find(option => option.id === selectedOptionForCoffeeType)?.extraPrice ?? 0;
+        const selectedExtraShotPrice = extraShotOptions.find(option => option.id === selectedOptionForExtraShot)?.extraPrice ?? 0;
+
+        console.log("ProductPrice", productPrice)
+        console.log("milk", selectedMilkPrice)
+        console.log("flavor", selectedFlavorPrice)
+        console.log("type", selectedCoffeeTypePrice)
+        console.log("shot", selectedExtraShotPrice)
+
+        const totalPrice = productPrice + selectedSizePrice + selectedMilkPrice + selectedFlavorPrice + selectedCoffeeTypePrice + selectedExtraShotPrice;
+        const totalPriceAsNumber = parseFloat(totalPrice);
+        const formattedPrice = totalPriceAsNumber.toFixed(2);
+        setCurrentPrice(formattedPrice)
+    }
+
     const handleOrder = () => {
         const orderDetails = {
-            milkPreference,
-            temperature,
-            extraShot,
+            selectedOptionForMilk,
+            selectedOptionForTemperature,
+            selectedOptionForExtraShot,
             useOwnCup,
-            size,
+            selectedOptionForSize,
             quantity,
         };
         console.log('Order Details:', orderDetails);
@@ -143,33 +173,32 @@ const OrderDetailScreen: React.FC = ({ route, navigation }) => {
 
 
                     {/* Size */}
-                    {sizeOption=="1" ? 
-                    <View>
-                    <Text style={styles.optionHeaderLabel}>Size</Text>
-                    <View style={styles.optinMainContainer}>
-                        {sizeOptions.map((option) => (
-                            <TouchableOpacity
-                                key={option.id}
-                                style={[
-                                    styles.optionContainer,
-                                    selectedOptionForSize === option.id && styles.optionSelected,
-                                ]}
-                                onPress={() => handlePressSize(option.id)}
-                            >
-                                <View style={styles.radioButton}>
-                                    {selectedOptionForSize === option.id && <View style={styles.radioButtonSelected} />}
-                                </View>
-                                <View style={styles.textContainer}>
-                                    <Text style={styles.optionLabel}>{option.label}</Text>
-                                    <Text style={styles.optionDescription}>{option.amountOfDrink}</Text>
-                                    <Text style={styles.optionPrice}>{option.price}</Text>
-                                </View>
-                            </TouchableOpacity>
-                        ))}
-                    </View>
-                    </View>
-                    : null}
-                    
+                    {sizeOption == "1" ?
+                        <View>
+                            <Text style={styles.optionHeaderLabel}>Size</Text>
+                            <View style={styles.optinMainContainer}>
+                                {sizeOptions.map((option) => (
+                                    <TouchableOpacity
+                                        key={option.id}
+                                        style={[
+                                            styles.optionContainer,
+                                            selectedOptionForSize === option.id && styles.optionSelected,
+                                        ]}
+                                        onPress={() => handlePressSize(option)}
+                                    >
+                                        <View style={styles.radioButton}>
+                                            {selectedOptionForSize === option.id && <View style={styles.radioButtonSelected} />}
+                                        </View>
+                                        <View style={styles.textContainer}>
+                                            <Text style={styles.optionLabel}>{option.label}</Text>
+                                            <Text style={styles.optionDescription}>{option.amountOfDrink}</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                ))}
+                            </View>
+                        </View>
+                        : null}
+
 
                     {/* Quantity */}
                     <View style={styles.optionContainerRow}>
@@ -193,167 +222,168 @@ const OrderDetailScreen: React.FC = ({ route, navigation }) => {
                 </View>
 
                 {/* Coffee Type */}
-                {coffeeTypeOption=="1" ? 
-                <View style={styles.sectionContainer}>
-                <Text style={styles.optionHeaderLabel}>Coffee Beans</Text>
-                <View style={styles.optinMainContainer}>
-                    {coffeeTypeOptions.map((coffee) => (
-                        <TouchableOpacity
-                            key={coffee.id}
-                            style={[
-                                styles.optionContainer,
-                                selectedOptionForCoffeeType === coffee.id && styles.optionSelected,
-                            ]}
-                            onPress={() => handlePressCoffeeType(coffee.id)}
-                        >
-                            <View style={styles.radioButton}>
-                                {selectedOptionForCoffeeType === coffee.id && <View style={styles.radioButtonSelected} />}
-                            </View>
-                            <View style={styles.textContainer}>
-                                <Text style={styles.optionLabel}>{coffee.label}</Text>
-                                {coffee.extraPrice > 0 && (
-                                    <Text style={styles.optionPrice}>{`+ £${coffee.extraPrice.toFixed(2)}`}</Text>
-                                )}
-                            </View>
-                        </TouchableOpacity>
-                    ))}
-                </View>
-                </View>
-                :
-                null}
+                {coffeeTypeOption == "1" ?
+                    <View style={styles.sectionContainer}>
+                        <Text style={styles.optionHeaderLabel}>Coffee Beans</Text>
+                        <View style={styles.optinMainContainer}>
+                            {coffeeTypeOptions.map((coffee) => (
+                                <TouchableOpacity
+                                    key={coffee.id}
+                                    style={[
+                                        styles.optionContainer,
+                                        selectedOptionForCoffeeType === coffee.id && styles.optionSelected,
+                                    ]}
+                                    onPress={() => handlePressCoffeeType(coffee)}
+                                >
+                                    <View style={styles.radioButton}>
+                                        {selectedOptionForCoffeeType === coffee.id && <View style={styles.radioButtonSelected} />}
+                                    </View>
+                                    <View style={styles.textContainer}>
+                                        <Text style={styles.optionLabel}>{coffee.label}</Text>
+                                        {coffee.extraPrice > 0 && (
+                                            <Text style={styles.optionPrice}>{`+ £${coffee.extraPrice.toFixed(2)}`}</Text>
+                                        )}
+                                    </View>
+                                </TouchableOpacity>
+                            ))}
+                        </View>
+                    </View>
+                    :
+                    null}
 
                 {/* Milk Preference */}
-                {milkOption=="1" ? 
-                <View style={styles.sectionContainer}>
-                    <Text style={styles.optionHeaderLabel}>Milk Preference</Text>
-                    <View style={styles.optinMainContainer}>
-                        {milkOptions.map((option) => (
-                            <TouchableOpacity
-                                key={option.id}
-                                style={[
-                                    styles.optionContainer,
-                                    selectedOptionForMilk === option.id && styles.optionSelected,
-                                    { height: 50 }
-                                ]}
-                                onPress={() => handlePressMilk(option.id)}
-                            >
-                                <View style={styles.radioButton}>
-                                    {selectedOptionForMilk === option.id && <View style={styles.radioButtonSelected} />}
-                                </View>
-                                <View style={styles.textContainer}>
-                                    <Text style={styles.optionLabel}>{option.label}</Text>
-                                    {option.extraPrice > 0 && (
-                                        <Text style={styles.optionPrice}>{`+ £${option.extraPrice.toFixed(2)}`}</Text>
-                                    )}
-                                </View>
-                            </TouchableOpacity>
-                        ))}
+                {milkOption == "1" ?
+                    <View style={styles.sectionContainer}>
+                        <Text style={styles.optionHeaderLabel}>Milk Preference</Text>
+                        <View style={styles.optinMainContainer}>
+                            {milkOptions.map((option) => (
+                                <TouchableOpacity
+                                    key={option.id}
+                                    style={[
+                                        styles.optionContainer,
+                                        selectedOptionForMilk === option.id && styles.optionSelected,
+                                        { height: 50 }
+                                    ]}
+                                    onPress={() => handlePressMilk(option.id)}
+                                >
+                                    <View style={styles.radioButton}>
+                                        {selectedOptionForMilk === option.id && <View style={styles.radioButtonSelected} />}
+                                    </View>
+                                    <View style={styles.textContainer}>
+                                        <Text style={styles.optionLabel}>{option.label}</Text>
+                                        {option.extraPrice > 0 && (
+                                            <Text style={styles.optionPrice}>{`+ £${option.extraPrice.toFixed(2)}`}</Text>
+                                        )}
+                                    </View>
+                                </TouchableOpacity>
+                            ))}
+                        </View>
                     </View>
-                </View>
-                :null}
+                    : null}
 
                 {/* Temperature */}
-                {temperatureOption=="1" ? 
-                <View style={styles.sectionContainer}>
-                    <Text style={styles.optionHeaderLabel}>Temperature</Text>
-                    <View style={styles.optinMainContainer}>
-                        {temperatureOptions.map((option) => (
-                            <TouchableOpacity
-                                key={option.id}
-                                style={[
-                                    styles.optionContainer,
-                                    selectedOptionForTemperature === option.id && styles.optionSelected,
-                                    { height: 50, width: '45%' }
-                                ]}
-                                onPress={() => handlePressTemperature(option.id)}
-                            >
-                                <View style={styles.radioButton}>
-                                    {selectedOptionForTemperature === option.id && <View style={styles.radioButtonSelected} />}
-                                </View>
-                                <View style={styles.textContainer}>
-                                    <Text style={styles.optionLabel}>{option.label}</Text>
-                                </View>
-                            </TouchableOpacity>
-                        ))}
+                {temperatureOption == "1" ?
+                    <View style={styles.sectionContainer}>
+                        <Text style={styles.optionHeaderLabel}>Temperature</Text>
+                        <View style={styles.optinMainContainer}>
+                            {temperatureOptions.map((option) => (
+                                <TouchableOpacity
+                                    key={option.id}
+                                    style={[
+                                        styles.optionContainer,
+                                        selectedOptionForTemperature === option.id && styles.optionSelected,
+                                        { height: 50, width: '45%' }
+                                    ]}
+                                    onPress={() => handlePressTemperature(option.id)}
+                                >
+                                    <View style={styles.radioButton}>
+                                        {selectedOptionForTemperature === option.id && <View style={styles.radioButtonSelected} />}
+                                    </View>
+                                    <View style={styles.textContainer}>
+                                        <Text style={styles.optionLabel}>{option.label}</Text>
+                                    </View>
+                                </TouchableOpacity>
+                            ))}
+                        </View>
                     </View>
-                </View>
-                :null}
+                    : null}
 
                 {/* Extra Shot */}
-                {extraShotOption=="1" ? 
-                <View style={styles.sectionContainer}>
-                    <Text style={styles.optionHeaderLabel}>Extra Shot</Text>
-                    <View style={styles.optinMainContainer}>
-                        {extraShotOptions.map((option) => (
-                            <TouchableOpacity
-                                key={option.id}
-                                style={[
-                                    styles.optionContainer,
-                                    selectedOptionForExtraShot === option.id && styles.optionSelected,
-                                    { height: 50, width: '45%' }
-                                ]}
-                                onPress={() => handlePressExtraShot(option.id)}
-                            >
-                                <View style={styles.radioButton}>
-                                    {selectedOptionForExtraShot === option.id && <View style={styles.radioButtonSelected} />}
-                                </View>
-                                <View style={styles.textContainer}>
-                                    <Text style={styles.optionLabel}>{option.label}</Text>
-                                </View>
-                            </TouchableOpacity>
-                        ))}
+                {extraShotOption == "1" ?
+                    <View style={styles.sectionContainer}>
+                        <Text style={styles.optionHeaderLabel}>Extra Shot</Text>
+                        <View style={styles.optinMainContainer}>
+                            {extraShotOptions.map((option) => (
+                                <TouchableOpacity
+                                    key={option.id}
+                                    style={[
+                                        styles.optionContainer,
+                                        selectedOptionForExtraShot === option.id && styles.optionSelected,
+                                        { height: 50, width: '45%' }
+                                    ]}
+                                    onPress={() => handlePressExtraShot(option.id)}
+                                >
+                                    <View style={styles.radioButton}>
+                                        {selectedOptionForExtraShot === option.id && <View style={styles.radioButtonSelected} />}
+                                    </View>
+                                    <View style={styles.textContainer}>
+                                        <Text style={styles.optionLabel}>{option.label}</Text>
+                                    </View>
+                                </TouchableOpacity>
+                            ))}
+                        </View>
                     </View>
-                </View>
-                :null}
+                    : null}
 
                 {/* Flavors */}
-                {flavorsOption=="1" ? 
-                <View style={styles.sectionContainer}>
-                <Text style={styles.optionHeaderLabel}>Flavors</Text>
-                <View style={styles.optinMainContainer}>
-                    {flavorOptions.map((flavor) => (
-                        <TouchableOpacity
-                            key={flavor.id}
-                            style={[
-                                styles.optionContainer,
-                                selectedOptionForSize === flavor.id && styles.optionSelected,
-                            ]}
-                            onPress={() => handlePressFlavor(flavor.id)}
-                        >
-                            <View style={styles.radioButton}>
-                                {selectedOptionForFlavor === flavor.id && <View style={styles.radioButtonSelected} />}
-                            </View>
-                            <View style={styles.textContainer}>
-                                <Text style={styles.optionLabel}>{flavor.label}</Text>
-                                {flavor.extraPrice > 0 && (
-                                    <Text style={styles.optionPrice}>{`+ £${flavor.extraPrice.toFixed(2)}`}</Text>
-                                )}
-                            </View>
-                        </TouchableOpacity>
-                    ))}
-                </View>
-                </View>
-                :null}
+                {flavorsOption == "1" ?
+                    <View style={styles.sectionContainer}>
+                        <Text style={styles.optionHeaderLabel}>Flavors</Text>
+                        <View style={styles.optinMainContainer}>
+                            {flavorOptions.map((flavor) => (
+                                <TouchableOpacity
+                                    key={flavor.id}
+                                    style={[
+                                        styles.optionContainer,
+                                        selectedOptionForSize === flavor.id && styles.optionSelected,
+                                    ]}
+                                    onPress={() => handlePressFlavor(flavor.id)}
+                                >
+                                    <View style={styles.radioButton}>
+                                        {selectedOptionForFlavor === flavor.id && <View style={styles.radioButtonSelected} />}
+                                    </View>
+                                    <View style={styles.textContainer}>
+                                        <Text style={styles.optionLabel}>{flavor.label}</Text>
+                                        {flavor.extraPrice > 0 && (
+                                            <Text style={styles.optionPrice}>{`+ £${flavor.extraPrice.toFixed(2)}`}</Text>
+                                        )}
+                                    </View>
+                                </TouchableOpacity>
+                            ))}
+                        </View>
+                    </View>
+                    : null}
 
 
                 {/* Use Own Cup */}
-                {ownCupOption=="1" ? 
-                <View style={styles.optionContainerRow}>
-                    <Text style={styles.optionLabel}>Use Own Cup</Text>
-                    <TouchableOpacity
-                        style={[styles.toggleButton, useOwnCup && styles.toggleButtonActive]}
-                        onPress={() => setUseOwnCup(!useOwnCup)}
-                    >
-                        <Text style={styles.toggleButtonText}>{useOwnCup ? 'Yes' : 'No'}</Text>
-                    </TouchableOpacity>
-                </View>
-                :null}
+                {ownCupOption == "1" ?
+                    <View style={styles.optionContainerRow}>
+                        <Text style={styles.optionLabel}>Use Own Cup</Text>
+                        <TouchableOpacity
+                            style={[styles.toggleButton, useOwnCup && styles.toggleButtonActive]}
+                            onPress={() => setUseOwnCup(!useOwnCup)}
+                        >
+                            <Text style={styles.toggleButtonText}>{useOwnCup ? 'Yes' : 'No'}</Text>
+                        </TouchableOpacity>
+                    </View>
+                    : null}
 
-                {/* Order Button */}
-                <TouchableOpacity style={styles.orderButton} onPress={handleOrder}>
-                    <Text style={styles.orderButtonText}>ADD TO BAG </Text>
-                </TouchableOpacity>
+
             </ScrollView>
+            {/* Order Button */}
+            <TouchableOpacity style={styles.orderButton} onPress={handleOrder}>
+                <Text style={styles.orderButtonText}>ADD TO BAG (£{`${currentPrice}`}) </Text>
+            </TouchableOpacity>
         </SafeAreaView>
     );
 };
@@ -512,11 +542,15 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     orderButton: {
-        marginTop: 30,
+        position: 'absolute',    // Fix the button at the bottom
+        bottom: 10,               // Align to the bottom of the screen
+        left: 20,                 // Align to the left of the screen
+        right: 20,                // Ensure the button spans the full width
+        borderRadius: 20,
         backgroundColor: '#599974',
         paddingVertical: 15,
-        borderRadius: 8,
         alignItems: 'center',
+        justifyContent: 'center',
     },
     orderButtonText: {
         fontSize: 14,
