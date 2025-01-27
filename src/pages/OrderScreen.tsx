@@ -15,6 +15,13 @@ import ProductItem from '../components/ProductItem';
 import { useNavigation } from '@react-navigation/native';
 import { useRoute } from '@react-navigation/native';
 import productsData from '../assets/data/products.json';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState, AppDispatch } from '../../store';
+import {
+  setTotalPrice,
+  incrementTotalPrice,
+  decrementTotalPrice,
+} from '../slices/totalPriceSlice';
 
 
 const OrderScreen = () => {
@@ -34,6 +41,9 @@ const OrderScreen = () => {
 
   // State oluştur
   const [selectedStore, setSelectedStore] = useState(defaultStore);
+
+  const totalPrice = useSelector((state: RootState) => state.totalPrice.value);
+  const dispatch: AppDispatch = useDispatch();
 
   // route.params değiştiğinde state'i güncelle
   useEffect(() => {
@@ -99,8 +109,6 @@ const OrderScreen = () => {
     outputRange: [0, -25],  // Kaydırma ile marginTop değeri azalacak
     extrapolate: 'clamp',  // Değerin bu aralığın dışına çıkmaması için
   });
-
-
 
 
   // Aktif kategoriye ait öğeleri getir
@@ -202,7 +210,7 @@ const OrderScreen = () => {
       </View>
       <View style={styles.btnBasketContainer}>
         <TouchableOpacity style={styles.btnBasket} onPress={() => navigation.navigate('SignUpScreen')}>
-          <Text style={styles.btnBasketText}>GO TO BASKET (£6.65)</Text>
+          <Text style={styles.btnBasketText}>GO TO BASKET (£{parseFloat(totalPrice).toFixed(2)})</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

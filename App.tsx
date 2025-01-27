@@ -14,6 +14,8 @@ import SignInScreen from './src/pages/SignInScreen';
 import VerifyEmailScreen from './src/pages/VerifyEmailScreen';
 import HomeScreen from './src/pages/HomeScreen';
 import SelectStoreScreen from './src/pages/SelectStoreScreen';
+import { Provider } from 'react-redux';
+import { store } from './store';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -29,7 +31,7 @@ function OrderStack() {
       <Stack.Screen
         name="OrderDetailScreen"
         component={OrderDetailScreen}
-        options={{ title: 'Order Details',  headerShown: false }}
+        options={{ title: 'Order Details', headerShown: false }}
       />
       <Stack.Screen
         name="SelectStoreScreen"
@@ -75,39 +77,41 @@ function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
   return (
-    <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
+    <Provider store={store}>
+      <NavigationContainer>
+        <Tab.Navigator
+          screenOptions={({ route }) => ({
+            tabBarIcon: ({ focused, color, size }) => {
+              let iconName;
 
-            if (route.name === 'Welcome') {
-              iconName = focused ? 'home' : 'home';
-            } else if (route.name === 'Order') {
-              iconName = focused ? 'coffee' : 'coffee';
-            } else if (route.name === 'Loyalty') {
-              iconName = focused ? 'gift' : 'gift';
-            }
-            return <FontAwesomeIcon name={iconName} size={size} color={color} />;
-          },
-          tabBarActiveTintColor: 'tomato',
-          tabBarInactiveTintColor: 'gray',
-          tabBarStyle: {
-            backgroundColor: 'white',
-            paddingVertical: 10,
-          },
-          tabBarButton: (props) => (
-            <View style={{ flex: 1, alignItems: 'center' }}>
-              <AnimatedTabButton {...props} />
-            </View>
-          ),
-        })}
-      >
-        <Tab.Screen name="Welcome" component={WelcomeStack} options={{ headerShown: false }} />
-        <Tab.Screen name="Order" component={OrderStack} options={{ headerShown: false }} />
-        <Tab.Screen name="Loyalty" component={LoyaltyScreen} options={{ headerShown: false }} />
-      </Tab.Navigator>
-    </NavigationContainer>
+              if (route.name === 'Welcome') {
+                iconName = focused ? 'home' : 'home';
+              } else if (route.name === 'Order') {
+                iconName = focused ? 'coffee' : 'coffee';
+              } else if (route.name === 'Loyalty') {
+                iconName = focused ? 'gift' : 'gift';
+              }
+              return <FontAwesomeIcon name={iconName} size={size} color={color} />;
+            },
+            tabBarActiveTintColor: 'tomato',
+            tabBarInactiveTintColor: 'gray',
+            tabBarStyle: {
+              backgroundColor: 'white',
+              paddingVertical: 10,
+            },
+            tabBarButton: (props) => (
+              <View style={{ flex: 1, alignItems: 'center' }}>
+                <AnimatedTabButton {...props} />
+              </View>
+            ),
+          })}
+        >
+          <Tab.Screen name="Welcome" component={WelcomeStack} options={{ headerShown: false }} />
+          <Tab.Screen name="Order" component={OrderStack} options={{ headerShown: false }} />
+          <Tab.Screen name="Loyalty" component={LoyaltyScreen} options={{ headerShown: false }} />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
 

@@ -11,6 +11,13 @@ import {
 } from 'react-native';
 import RadioGroup from 'react-native-radio-buttons-group';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState, AppDispatch } from '../../store';
+import {
+    setTotalPrice,
+    incrementTotalPrice,
+    decrementTotalPrice,
+} from '../slices/totalPriceSlice';
 
 const OrderDetailScreen: React.FC = ({ route, navigation }) => {
 
@@ -26,6 +33,12 @@ const OrderDetailScreen: React.FC = ({ route, navigation }) => {
         flavorsOption
     } = route.params;
 
+    const totalPrice = useSelector((state: RootState) => state.totalPrice.value ?? 0);
+    
+    const totalPriceFloat = parseFloat(totalPrice);
+    console.log('sss', totalPriceFloat)
+    
+    const dispatch: AppDispatch = useDispatch();
 
     const milkOptions = [
         { id: 1, label: 'Whole', extraPrice: 0.00 },
@@ -104,7 +117,7 @@ const OrderDetailScreen: React.FC = ({ route, navigation }) => {
     };
 
     const handlePressQuantity = (amount) => {
-        setQuantity(quantity+amount)
+        setQuantity(quantity + amount)
     };
 
     useEffect(() => {
@@ -130,10 +143,9 @@ const OrderDetailScreen: React.FC = ({ route, navigation }) => {
         console.log("type", selectedCoffeeTypePrice)
         console.log("shot", selectedExtraShotPrice)
 
-        const totalPrice = productPrice + selectedSizePrice + selectedMilkPrice + selectedFlavorPrice + selectedCoffeeTypePrice + selectedExtraShotPrice;
-        const totalPriceAsNumber = parseFloat(totalPrice*quantity);
-        const formattedPrice = totalPriceAsNumber.toFixed(2);
-        setCurrentPrice(formattedPrice)
+        const total = productPrice + selectedSizePrice + selectedMilkPrice + selectedFlavorPrice + selectedCoffeeTypePrice + selectedExtraShotPrice;
+        const totalAsNumber = parseFloat(total * quantity);
+        setCurrentPrice(totalAsNumber)
     }
 
     const handleOrder = () => {
@@ -148,8 +160,12 @@ const OrderDetailScreen: React.FC = ({ route, navigation }) => {
         console.log('Order Details:', orderDetails);
 
         Alert.alert('Added to basket!', '', [
-            {text: 'OK', onPress: () => navigation.navigate('OrderScreen')},
-          ]);
+            { text: 'OK', onPress: () => {
+                const tp=totalPriceFloat+currentPrice
+                dispatch(setTotalPrice(tp));
+                navigation.navigate('OrderScreen')
+        } },
+        ]);
     };
 
     return (
@@ -353,38 +369,38 @@ const OrderDetailScreen: React.FC = ({ route, navigation }) => {
 
                 {/* Quantity */}
                 <View style={styles.sectionContainer}>
-                <View style={styles.optionContainerRow}>
-                    <Text style={styles.optionHeaderLabel}>Quantity</Text>
-                    <View style={styles.quantityContainer}>
-                        <TouchableOpacity
-                            style={[
-                                styles.quantityButton,
-                                quantity<=1 ? styles.disabledButton : styles.enabledButton,
-                              ]}
-                            onPress={() => handlePressQuantity(-1)}
-                            disabled={quantity<=1?true:false}
-                        >
-                            <Text style={styles.quantityButtonText}>-</Text>
-                        </TouchableOpacity>
-                        <Text style={styles.quantityText}>{quantity}</Text>
-                        <TouchableOpacity
-                             style={[
-                                styles.quantityButton,
-                                quantity>=10 ? styles.disabledButton : styles.enabledButton,
-                              ]}
-                            onPress={() => handlePressQuantity(1)}
-                            disabled={quantity>=10?true:false}
-                        >
-                            <Text style={styles.quantityButtonText}>+</Text>
-                        </TouchableOpacity>
+                    <View style={styles.optionContainerRow}>
+                        <Text style={styles.optionHeaderLabel}>Quantity</Text>
+                        <View style={styles.quantityContainer}>
+                            <TouchableOpacity
+                                style={[
+                                    styles.quantityButton,
+                                    quantity <= 1 ? styles.disabledButton : styles.enabledButton,
+                                ]}
+                                onPress={() => handlePressQuantity(-1)}
+                                disabled={quantity <= 1 ? true : false}
+                            >
+                                <Text style={styles.quantityButtonText}>-</Text>
+                            </TouchableOpacity>
+                            <Text style={styles.quantityText}>{quantity}</Text>
+                            <TouchableOpacity
+                                style={[
+                                    styles.quantityButton,
+                                    quantity >= 10 ? styles.disabledButton : styles.enabledButton,
+                                ]}
+                                onPress={() => handlePressQuantity(1)}
+                                disabled={quantity >= 10 ? true : false}
+                            >
+                                <Text style={styles.quantityButtonText}>+</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                </View>
                 </View>
 
                 {/* Use Own Cup */}
                 {ownCupOption == "1" ?
                     <View style={[styles.optionContainerRow, { marginTop: 10 }]}>
-                        <Text style={{ fontSize: 14,fontWeight: 'bold',}}>Use Own Cup</Text>
+                        <Text style={{ fontSize: 14, fontWeight: 'bold', }}>Use Own Cup</Text>
                         <TouchableOpacity
                             style={[styles.toggleButton, useOwnCup && styles.toggleButtonActive]}
                             onPress={() => setUseOwnCup(!useOwnCup)}
@@ -398,7 +414,7 @@ const OrderDetailScreen: React.FC = ({ route, navigation }) => {
             </ScrollView>
             {/* Order Button */}
             <TouchableOpacity style={styles.orderButton} onPress={handleOrder}>
-                <Text style={styles.orderButtonText}>ADD TO BAG (£{`${currentPrice}`}) </Text>
+                <Text style={styles.orderButtonText}>ADD TO BAG (£{`${parseFloat(currentPrice).toFixed(2)}`}) </Text>
             </TouchableOpacity>
         </SafeAreaView>
     );
@@ -594,10 +610,10 @@ const styles = StyleSheet.create({
     },
     enabledButton: {
         opacity: 1
-      },
-      disabledButton: {
+    },
+    disabledButton: {
         opacity: 0.3,
-      },
+    },
 });
 
 export default OrderDetailScreen;
