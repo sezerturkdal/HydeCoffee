@@ -6,7 +6,8 @@ import {
     SafeAreaView,
     TouchableOpacity,
     ScrollView,
-    Image,  // Image bileşenini import et
+    Image,
+    Alert
 } from 'react-native';
 import RadioGroup from 'react-native-radio-buttons-group';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
@@ -145,7 +146,10 @@ const OrderDetailScreen: React.FC = ({ route, navigation }) => {
             quantity,
         };
         console.log('Order Details:', orderDetails);
-        alert('Order placed successfully!');
+
+        Alert.alert('Added to basket!', '', [
+            {text: 'OK', onPress: () => navigation.navigate('OrderScreen')},
+          ]);
     };
 
     return (

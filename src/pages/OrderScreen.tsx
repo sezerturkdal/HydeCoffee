@@ -113,12 +113,12 @@ const OrderScreen = () => {
       productName: product.name,
       productPrice: parseFloat(product.price),
       sizeOption: product.sizeOption,
-      milkOption:product.milkOption,
-      temperatureOption:product.temperatureOption,
-      extraShotOption:product.extraShotOption,
-      ownCupOption:product.ownCupOption,
-      coffeeTypeOption:product.coffeeTypeOption,
-      flavorsOption:product.flavorsOption
+      milkOption: product.milkOption,
+      temperatureOption: product.temperatureOption,
+      extraShotOption: product.extraShotOption,
+      ownCupOption: product.ownCupOption,
+      coffeeTypeOption: product.coffeeTypeOption,
+      flavorsOption: product.flavorsOption
     });
   };
 
@@ -199,6 +199,11 @@ const OrderScreen = () => {
             { useNativeDriver: false }  // useNativeDriver false olmalı çünkü height ve opacity animasyonları yapıyoruz
           )}
         />
+      </View>
+      <View style={styles.btnBasketContainer}>
+        <TouchableOpacity style={styles.btnBasket} onPress={() => navigation.navigate('SignUpScreen')}>
+          <Text style={styles.btnBasketText}>GO TO BASKET (£6.65)</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -319,7 +324,27 @@ const styles = StyleSheet.create({
     top: 0,
     width: '100%',
     minHeight: '100%'
-  }
+  },
+  btnBasketContainer: {
+    position: 'absolute',
+    bottom: 10,
+    alignItems: 'center',
+    width: '100%',
+    justifyContent: 'center',
+  },
+  btnBasket: {
+    backgroundColor: 'green',
+    width: '80%',
+    height: 50,
+    borderRadius: 25,
+    justifyContent: 'center',
+  },
+  btnBasketText: {
+    textAlign: 'center',
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: 'white'
+  },
 });
 
 export default OrderScreen;
