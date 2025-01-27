@@ -208,11 +208,13 @@ const OrderScreen = () => {
           )}
         />
       </View>
-      <View style={styles.btnBasketContainer}>
-        <TouchableOpacity style={styles.btnBasket} onPress={() => navigation.navigate('SignUpScreen')}>
-          <Text style={styles.btnBasketText}>GO TO BASKET (£{parseFloat(totalPrice).toFixed(2)})</Text>
-        </TouchableOpacity>
-      </View>
+      {totalPrice > 0 ?
+        <View style={styles.btnBasketContainer}>
+          <TouchableOpacity style={styles.btnBasket} onPress={() => navigation.navigate('SignUpScreen')}>
+            <Text style={styles.btnBasketText}>GO TO BASKET (£{parseFloat(totalPrice).toFixed(2)})</Text>
+          </TouchableOpacity>
+        </View>
+        : null}
     </SafeAreaView>
   );
 };
