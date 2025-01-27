@@ -102,6 +102,10 @@ const OrderDetailScreen: React.FC = ({ route, navigation }) => {
         }
     };
 
+    const handlePressQuantity = (amount) => {
+        setQuantity(quantity+amount)
+    };
+
     useEffect(() => {
         if (selectedOptionForCoffeeType !== null
             || selectedOptionForExtraShot !== null
@@ -110,7 +114,7 @@ const OrderDetailScreen: React.FC = ({ route, navigation }) => {
             || selectedOptionForSize !== null) {
             calculatePrice();
         }
-    }, [selectedOptionForCoffeeType, selectedOptionForExtraShot, selectedOptionForFlavor, selectedOptionForMilk, selectedOptionForSize]);
+    }, [selectedOptionForCoffeeType, selectedOptionForExtraShot, selectedOptionForFlavor, selectedOptionForMilk, selectedOptionForSize, quantity]);
 
     const calculatePrice = () => {
         const selectedSizePrice = sizeOptions.find(option => option.id === selectedOptionForSize)?.price ?? 0;
@@ -126,7 +130,7 @@ const OrderDetailScreen: React.FC = ({ route, navigation }) => {
         console.log("shot", selectedExtraShotPrice)
 
         const totalPrice = productPrice + selectedSizePrice + selectedMilkPrice + selectedFlavorPrice + selectedCoffeeTypePrice + selectedExtraShotPrice;
-        const totalPriceAsNumber = parseFloat(totalPrice);
+        const totalPriceAsNumber = parseFloat(totalPrice*quantity);
         const formattedPrice = totalPriceAsNumber.toFixed(2);
         setCurrentPrice(formattedPrice)
     }
@@ -198,27 +202,6 @@ const OrderDetailScreen: React.FC = ({ route, navigation }) => {
                             </View>
                         </View>
                         : null}
-
-
-                    {/* Quantity */}
-                    <View style={styles.optionContainerRow}>
-                        <Text style={styles.optionHeaderLabel}>Quantity</Text>
-                        <View style={styles.quantityContainer}>
-                            <TouchableOpacity
-                                style={styles.quantityButton}
-                                onPress={() => setQuantity(Math.max(1, quantity - 1))}
-                            >
-                                <Text style={styles.quantityButtonText}>-</Text>
-                            </TouchableOpacity>
-                            <Text style={styles.quantityText}>{quantity}</Text>
-                            <TouchableOpacity
-                                style={styles.quantityButton}
-                                onPress={() => setQuantity(quantity + 1)}
-                            >
-                                <Text style={styles.quantityButtonText}>+</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
                 </View>
 
                 {/* Coffee Type */}
@@ -364,11 +347,40 @@ const OrderDetailScreen: React.FC = ({ route, navigation }) => {
                     </View>
                     : null}
 
+                {/* Quantity */}
+                <View style={styles.sectionContainer}>
+                <View style={styles.optionContainerRow}>
+                    <Text style={styles.optionHeaderLabel}>Quantity</Text>
+                    <View style={styles.quantityContainer}>
+                        <TouchableOpacity
+                            style={[
+                                styles.quantityButton,
+                                quantity<=1 ? styles.disabledButton : styles.enabledButton,
+                              ]}
+                            onPress={() => handlePressQuantity(-1)}
+                            disabled={quantity<=1?true:false}
+                        >
+                            <Text style={styles.quantityButtonText}>-</Text>
+                        </TouchableOpacity>
+                        <Text style={styles.quantityText}>{quantity}</Text>
+                        <TouchableOpacity
+                             style={[
+                                styles.quantityButton,
+                                quantity>=10 ? styles.disabledButton : styles.enabledButton,
+                              ]}
+                            onPress={() => handlePressQuantity(1)}
+                            disabled={quantity>=10?true:false}
+                        >
+                            <Text style={styles.quantityButtonText}>+</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                </View>
 
                 {/* Use Own Cup */}
                 {ownCupOption == "1" ?
-                    <View style={styles.optionContainerRow}>
-                        <Text style={styles.optionLabel}>Use Own Cup</Text>
+                    <View style={[styles.optionContainerRow, { marginTop: 10 }]}>
+                        <Text style={{ fontSize: 14,fontWeight: 'bold',}}>Use Own Cup</Text>
                         <TouchableOpacity
                             style={[styles.toggleButton, useOwnCup && styles.toggleButtonActive]}
                             onPress={() => setUseOwnCup(!useOwnCup)}
@@ -395,6 +407,7 @@ const styles = StyleSheet.create({
     },
     container: {
         padding: 20,
+        paddingBottom: 70,
         backgroundColor: '#fff8f5',
     },
     headerContainer: {
@@ -460,8 +473,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: 20,
-        padding: 20
+        marginBottom: 5,
+        padding: 10
     },
     optionSelected: {
         borderColor: '#599974',
@@ -574,7 +587,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: 35,
         height: 35
-    }
+    },
+    enabledButton: {
+        opacity: 1
+      },
+      disabledButton: {
+        opacity: 0.3,
+      },
 });
 
 export default OrderDetailScreen;
