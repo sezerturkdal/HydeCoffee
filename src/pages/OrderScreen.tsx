@@ -135,6 +135,10 @@ const OrderScreen = () => {
     navigation.navigate('SelectStoreScreen');
   };
 
+  const handlePressBasket = () => {
+    navigation.navigate('BasketScreen');
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.fixedTop}>
@@ -210,7 +214,7 @@ const OrderScreen = () => {
       </View>
       {totalPrice > 0 ?
         <View style={styles.btnBasketContainer}>
-          <TouchableOpacity style={styles.btnBasket} onPress={() => navigation.navigate('SignUpScreen')}>
+          <TouchableOpacity style={styles.btnBasket} onPress={() => handlePressBasket()}>
             <Text style={styles.btnBasketText}>GO TO BASKET (£{parseFloat(totalPrice).toFixed(2)})</Text>
           </TouchableOpacity>
         </View>

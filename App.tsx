@@ -14,6 +14,7 @@ import SignInScreen from './src/pages/SignInScreen';
 import VerifyEmailScreen from './src/pages/VerifyEmailScreen';
 import HomeScreen from './src/pages/HomeScreen';
 import SelectStoreScreen from './src/pages/SelectStoreScreen';
+import BasketScreen from './src/pages/BasketScreen';
 import { Provider } from 'react-redux';
 import { store } from './store';
 
@@ -37,6 +38,11 @@ function OrderStack() {
         name="SelectStoreScreen"
         component={SelectStoreScreen}
         options={{ title: 'SelectStore', headerShown: false }}
+      />
+      <Stack.Screen
+        name="BasketScreen"
+        component={BasketScreen}
+        options={{ title: 'Basket', headerShown: false }}
       />
     </Stack.Navigator>
   );
