@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Image, StyleSheet, ImageSourcePropType, TouchableOpacity } from 'react-native';
+import { View, Text, Image, StyleSheet, ImageSourcePropType, TouchableOpacity, Alert } from 'react-native';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 // Props türünü tanımlıyoruz
@@ -15,7 +15,22 @@ const BasketItem: React.FC<BasketItemProps> = ({ image, price, name, description
     const [quantity, setQuantity] = useState<number>(1);
 
     const handlePressQuantity = (amount) => {
-        setQuantity(quantity + amount)
+        if(quantity + amount < 1){
+            Alert.alert('Cancel Item', 'The item will be removed from the basket. Are you sure?', [
+                {
+                    text: 'Keep it', onPress: () => {
+                        
+                    }
+                },
+                {
+                    text: 'OK', onPress: () => {
+                        
+                    }
+                },
+            ]);
+        }else{
+            setQuantity(quantity + amount)
+        }
     };
 
     return (
@@ -25,19 +40,25 @@ const BasketItem: React.FC<BasketItemProps> = ({ image, price, name, description
                 <Text style={itemStyles.productName}>{name}</Text>
                 <Text style={itemStyles.productPrice}>{price}</Text>
                 <Text style={itemStyles.productDescription}>{description}</Text>
+                <TouchableOpacity
+                    style={itemStyles.editButton}
+                    onPress={() => handlePressQuantity(1)}
+                >
+                    <Text style={itemStyles.quantityButtonText}>Edit</Text>
+                </TouchableOpacity>
                 <View style={itemStyles.quantityContainer}>
                     <TouchableOpacity
                         style={[
                             itemStyles.quantityButton,
-                            quantity <= 1 ? (quantity<=1 ? itemStyles.removeButton : itemStyles.disabledButton ) : itemStyles.enabledButton,
+                            quantity <= 1 ? (quantity <= 1 ? itemStyles.removeButton : itemStyles.disabledButton) : itemStyles.enabledButton,
                         ]}
                         onPress={() => handlePressQuantity(-1)}
                         disabled={quantity <= 0 ? true : false}
                     >
-                        {quantity>1 ?
-                         <Text style={itemStyles.quantityButtonText}>-</Text>
-                          :
-                          <FontAwesomeIcon name='trash' size={14} style={{ paddingVertical: 1, paddingHorizontal: 1, color: '#fff' }} />
+                        {quantity > 1 ?
+                            <Text style={itemStyles.quantityButtonText}>-</Text>
+                            :
+                            <FontAwesomeIcon name='trash' size={14} style={{ paddingVertical: 1, paddingHorizontal: 1, color: '#fff' }} />
                         }
                     </TouchableOpacity>
                     <Text style={itemStyles.quantityText}>{quantity}</Text>
@@ -71,8 +92,8 @@ const itemStyles = StyleSheet.create({
         elevation: 5, // Shadow for Android
     },
     productImage: {
-        width: 70,
-        height: 70,
+        width: 100,
+        height: 100,
         borderRadius: 10,
         marginRight: 15,
     },
@@ -97,20 +118,31 @@ const itemStyles = StyleSheet.create({
         color: '#777',
     },
     quantityContainer: {
-        position:'absolute',
-        right:0,
-        bottom:3,
+        position: 'absolute',
+        right: 0,
+        bottom: 0,
         flexDirection: 'row',
         alignItems: 'center'
+    },
+    editButton:{
+        marginTop:30,
+        left:0,
+        bottom:3,
+        width:60,
+        padding:5,
+        borderRadius:10,
+        alignItems:'center',
+        justifyContent:'center',
+        backgroundColor: '#a0d88b',
     },
     quantityButton: {
         borderWidth: 1,
         borderColor: '#ccc',
         borderRadius: 45,
-        justifyContent:'center',
-        alignItems:'center',
-        width:30,
-        height:30,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: 30,
+        height: 30,
         backgroundColor: '#f9f9f9',
     },
     quantityButtonText: {
