@@ -78,7 +78,7 @@ const HomeScreen = ({ navigation }: HomeScreenProps): React.JSX.Element => {
                     </Text>
 
                     <Image
-                        source={require('../assets/images/coffee-ad.jpg')}
+                        source={require('../assets/images/coffee2.jpg')}
                         style={styles.coverPhoto}
                     />
                     <Text style={styles.whatsNewText}>

@@ -34,10 +34,10 @@ const OrderDetailScreen: React.FC = ({ route, navigation }) => {
     } = route.params;
 
     const totalPrice = useSelector((state: RootState) => state.totalPrice.value ?? 0);
-    
+
     const totalPriceFloat = parseFloat(totalPrice);
     console.log('sss', totalPriceFloat)
-    
+
     const dispatch: AppDispatch = useDispatch();
 
     const milkOptions = [
@@ -88,6 +88,14 @@ const OrderDetailScreen: React.FC = ({ route, navigation }) => {
     const [quantity, setQuantity] = useState<number>(1);
     const [currentPrice, setCurrentPrice] = useState<number>(productPrice.toFixed(2));
 
+    const [milkOptionsSize, setFontSizeMilkOptions] = useState(40);
+    const [coffeeTypeSize, setCoffeeTypeSize] = useState(40);
+    const [flavorSize, setFlavorSize] = useState(40);
+    const [extraShotSize, setExtraShotSize] = useState(40);
+    const [temperatureSize, setTemperatureSize] = useState(40);
+    const [sizeOptionsSize, setSizeOptionsSize] = useState(40);
+
+
     const handlePressSize = (option) => {
         setSelectedOptionForSize(option.id);
     };
@@ -130,6 +138,22 @@ const OrderDetailScreen: React.FC = ({ route, navigation }) => {
         }
     }, [selectedOptionForCoffeeType, selectedOptionForExtraShot, selectedOptionForFlavor, selectedOptionForMilk, selectedOptionForSize, quantity]);
 
+    useEffect(() => {
+        const milkOptionsSize = milkOptions.length >= 3 ? 7 : 10;
+        setFontSizeMilkOptions(milkOptionsSize);
+        const coffeeTypeSize = coffeeTypeOptions.length >= 3 ? 7 : 10;
+        setCoffeeTypeSize(coffeeTypeSize);
+        const flavorSize = flavorOptions.length >= 3 ? 7 : 10;
+        setFlavorSize(flavorSize);
+        const extraShotSize = extraShotOptions.length >= 3 ? 7 : 10;
+        setExtraShotSize(extraShotSize);
+        const temperatureSize = temperatureOptions.length >= 3 ? 7 : 10;
+        setTemperatureSize(temperatureSize);
+        const sizeOptionsSize = temperatureOptions.length >= 3 ? 7 : 10;
+        setSizeOptionsSize(sizeOptionsSize);
+    }, []);
+
+
     const calculatePrice = () => {
         const selectedSizePrice = sizeOptions.find(option => option.id === selectedOptionForSize)?.price ?? 0;
         const selectedMilkPrice = milkOptions.find(option => option.id === selectedOptionForMilk)?.extraPrice ?? 0;
@@ -160,11 +184,13 @@ const OrderDetailScreen: React.FC = ({ route, navigation }) => {
         console.log('Order Details:', orderDetails);
 
         Alert.alert('Added to basket!', '', [
-            { text: 'OK', onPress: () => {
-                const tp=totalPriceFloat+currentPrice
-                dispatch(setTotalPrice(tp));
-                navigation.navigate('OrderScreen')
-        } },
+            {
+                text: 'OK', onPress: () => {
+                    const tp = totalPriceFloat + currentPrice
+                    dispatch(setTotalPrice(tp));
+                    navigation.navigate('OrderScreen')
+                }
+            },
         ]);
     };
 
@@ -214,8 +240,8 @@ const OrderDetailScreen: React.FC = ({ route, navigation }) => {
                                             {selectedOptionForSize === option.id && <View style={styles.radioButtonSelected} />}
                                         </View>
                                         <View style={styles.textContainer}>
-                                            <Text style={styles.optionLabel}>{option.label}</Text>
-                                            <Text style={styles.optionDescription}>{option.amountOfDrink}</Text>
+                                            <Text style={[styles.optionLabel, { fontSize: sizeOptionsSize }]} numberOfLines={2} adjustsFontSizeToFit>{option.label}</Text>
+                                            <Text style={styles.optionDescription} numberOfLines={2} adjustsFontSizeToFit>{option.amountOfDrink}</Text>
                                         </View>
                                     </TouchableOpacity>
                                 ))}
@@ -242,9 +268,9 @@ const OrderDetailScreen: React.FC = ({ route, navigation }) => {
                                         {selectedOptionForCoffeeType === coffee.id && <View style={styles.radioButtonSelected} />}
                                     </View>
                                     <View style={styles.textContainer}>
-                                        <Text style={styles.optionLabel}>{coffee.label}</Text>
+                                        <Text style={[styles.optionLabel, { fontSize: coffeeTypeSize }]} numberOfLines={2}>{coffee.label}</Text>
                                         {coffee.extraPrice > 0 && (
-                                            <Text style={styles.optionPrice}>{`+ £${coffee.extraPrice.toFixed(2)}`}</Text>
+                                            <Text numberOfLines={1} adjustsFontSizeToFit style={styles.optionPrice}>{`+ £${coffee.extraPrice.toFixed(2)}`}</Text>
                                         )}
                                     </View>
                                 </TouchableOpacity>
@@ -273,9 +299,9 @@ const OrderDetailScreen: React.FC = ({ route, navigation }) => {
                                         {selectedOptionForMilk === option.id && <View style={styles.radioButtonSelected} />}
                                     </View>
                                     <View style={styles.textContainer}>
-                                        <Text style={styles.optionLabel}>{option.label}</Text>
+                                        <Text numberOfLines={2} adjustsFontSizeToFit style={[styles.optionLabel, { fontSize: milkOptionsSize }]} >{option.label}</Text>
                                         {option.extraPrice > 0 && (
-                                            <Text style={styles.optionPrice}>{`+ £${option.extraPrice.toFixed(2)}`}</Text>
+                                            <Text numberOfLines={1} adjustsFontSizeToFit style={styles.optionPrice}>{`+ £${option.extraPrice.toFixed(2)}`}</Text>
                                         )}
                                     </View>
                                 </TouchableOpacity>
@@ -303,7 +329,7 @@ const OrderDetailScreen: React.FC = ({ route, navigation }) => {
                                         {selectedOptionForTemperature === option.id && <View style={styles.radioButtonSelected} />}
                                     </View>
                                     <View style={styles.textContainer}>
-                                        <Text style={styles.optionLabel}>{option.label}</Text>
+                                        <Text numberOfLines={2} adjustsFontSizeToFit style={[styles.optionLabel, { fontSize: temperatureSize }]}>{option.label}</Text>
                                     </View>
                                 </TouchableOpacity>
                             ))}
@@ -330,7 +356,7 @@ const OrderDetailScreen: React.FC = ({ route, navigation }) => {
                                         {selectedOptionForExtraShot === option.id && <View style={styles.radioButtonSelected} />}
                                     </View>
                                     <View style={styles.textContainer}>
-                                        <Text style={styles.optionLabel}>{option.label}</Text>
+                                        <Text numberOfLines={2} adjustsFontSizeToFit style={[styles.optionLabel, { fontSize: extraShotSize }]}>{option.label}</Text>
                                     </View>
                                 </TouchableOpacity>
                             ))}
@@ -356,9 +382,9 @@ const OrderDetailScreen: React.FC = ({ route, navigation }) => {
                                         {selectedOptionForFlavor === flavor.id && <View style={styles.radioButtonSelected} />}
                                     </View>
                                     <View style={styles.textContainer}>
-                                        <Text style={styles.optionLabel}>{flavor.label}</Text>
+                                        <Text numberOfLines={2} adjustsFontSizeToFit style={[styles.optionLabel, { fontSize: flavorSize }]}>{flavor.label}</Text>
                                         {flavor.extraPrice > 0 && (
-                                            <Text style={styles.optionPrice}>{`+ £${flavor.extraPrice.toFixed(2)}`}</Text>
+                                            <Text style={styles.optionPrice} numberOfLines={1} adjustsFontSizeToFit >{`+ £${flavor.extraPrice.toFixed(2)}`}</Text>
                                         )}
                                     </View>
                                 </TouchableOpacity>
